@@ -1,0 +1,45 @@
+<aura:component
+        implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+        access="global" controller="L_SlackChannelsController">
+
+    <ltng:require scripts="{!$Resource.CommonUtils}" afterScriptsLoaded="{!c.init}"/>
+
+    <aura:attribute name="workspaces" type="List" default="[]" access="public"/>
+    <aura:attribute name="selectedWorkspace" type="String" access="public"/>
+
+    <aura:attribute name="channelsFromSettings" type="List" default="[]" access="public"/>
+    <aura:attribute name="channelsFromSlack" type="List" default="[]" access="public"/>
+    <aura:attribute name="channelsSelectedIds" type="List" default="[]" access="public"/>
+
+    <div>
+        <div class="slds-card slds-p-around--large slds-m-around--medium">
+            <div class="slds-page-header">Manage channels from slack workspaces</div>
+            <div class="slds-col">
+                <div class="slds-m-bottom_small slds-size_1-of-4">
+                    <lightning:select name="workspaceSelect" label="Select workspace:" aura:id="workspaceId"
+                                      value="{!v.selectedWorkspace}" onchange="{!c.updateChannels}">
+                        <aura:iteration items="{!v.workspaces}" var="workspace">
+                            <option text="{!workspace.Name}" value="{!workspace.Token__c}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+
+                <lightning:dualListbox name="multipleOptions"
+                                       label="Select Channels"
+                                       sourceLabel="Available"
+                                       selectedLabel="Selected"
+                                       value="{!v.channelsSelectedIds}"
+                                       options="{!v.channelsFromSlack}"
+                />
+            </div>
+            <div class="slds-m-around--small">
+                <lightning:buttonGroup>
+                    <lightning:button label="Cancel" onclick="{! c.cancel }"/>
+                    <lightning:button label="Save" variant="brand" onclick="{! c.save }"/>
+                </lightning:buttonGroup>
+            </div>
+        </div>
+
+    </div>
+
+</aura:component>

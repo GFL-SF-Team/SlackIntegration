@@ -1,0 +1,36 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+                access="global"
+                controller="L_SlackWorkspacesListController">
+
+    <ltng:require scripts="{!$Resource.CommonUtils}"/>
+
+    <aura:attribute name="workspace" type="Workspace__c" access="public"/>
+
+    <div class="slds-card slds-p-around--large slds-m-around--medium">
+
+        <div class="slds-text-heading_large">
+            Workspace info
+        </div>
+        <div class="slds-m-around_small">
+            <div class="slds-size_1-of-4 slds-m-around--small">
+                <lightning:input label="Name" name="name" value="{!v.workspace.Name}"/>
+            </div>
+            <div class="slds-size_2-of-3 slds-m-around--small">
+                <lightning:input label="Workspace token" name="workspace-token" value="{!v.workspace.Token__c}"/>
+            </div>
+        </div>
+
+        <div class="slds-m-around--medium">
+            <lightning:buttonGroup>
+                <div class="slds-m-around--xx-small">
+                    <lightning:button label="Cancel" onclick="{! c.cancel }"/>
+                </div>
+                <div class="slds-m-around--xx-small">
+                    <lightning:button label="Save" variant="brand" onclick="{! c.save }"/>
+                </div>
+            </lightning:buttonGroup>
+        </div>
+
+    </div>
+
+</aura:component>
