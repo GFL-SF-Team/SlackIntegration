@@ -4,12 +4,12 @@ This package allows to send messages from Salesforce to Slack.
 
 Contents:
 
-* [Configuring Slack Integration]()
-	* [In Slack]()
-	* [In Salesforce]()
-* [Using Slack Integration]()
-	* [In Lightning]()
-	* [In Apex]()
+* [Configuring Slack Integration](https://bitbucket.org/paulr-gflwork/slack-notification-sfdx/overview#markdown-header-configuring-slack-integration)
+	* [In Slack](https://bitbucket.org/paulr-gflwork/slack-notification-sfdx/overview#markdown-header-in-slack)
+	* [In Salesforce](https://bitbucket.org/paulr-gflwork/slack-notification-sfdx/overview#markdown-header-in-salesforce)
+* [Using Slack Integration](https://bitbucket.org/paulr-gflwork/slack-notification-sfdx/overview#markdown-header-using-slack-integration)
+	* [In Lightning](https://bitbucket.org/paulr-gflwork/slack-notification-sfdx/overview#markdown-header-in-lightning)
+	* [In Apex](https://bitbucket.org/paulr-gflwork/slack-notification-sfdx/overview#markdown-header-in-apex)
 	
 --------
 
