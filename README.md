@@ -28,10 +28,10 @@ Go to https://api.slack.com -> Your apps
 
 4. Install the latest version of *SlackIntegration* package
 	
-	```
+	```powershell
 		sfdx force:package:install -u MyTP --wait 10 --package SlackIntegration@0.4.0-1 -k test1234 --noprompt
 	```
-	>
+	
 	
 5. Add your workspace to Salesforce
 	Go to Slack Channels Tab -> Manage workspaces -> Add Workspace
@@ -51,19 +51,19 @@ Go to https://api.slack.com -> Your apps
 ### In Lightning
 
 - Place c:SlackNotification component somewhere in your app.
->
+
 ```html
 		<c:SlackNotification/>
 ```
 
 - Include a static resource CommonUtils.js in your component:
->
+
 ```html
 		<ltng:require scripts="{!$Resource.CommonUtils}"/>
 ```
 
 - Send an event using utility function:
->
+
 ```javascript
 		$CommonUtils.sendSlackNotification(priority, type, textMessage);
 ```
@@ -72,7 +72,7 @@ Go to https://api.slack.com -> Your apps
 ### In Apex
 
 Create an instance of `D_SlackMessage.ApexMessage` class, set type event, priority and exception. Then call `broadcast()` method:
->
+
 ```java
 
 	D_SlackMessage.ApexMessage message = new D_SlackMessage.ApexMessage();
