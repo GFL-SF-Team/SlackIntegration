@@ -28,9 +28,9 @@ Go to https://api.slack.com -> Your apps
 
 4. Install the latest version of *SlackIntegration* package
 	
-	```powershell
-		sfdx force:package:install -u MyTP --wait 10 --package SlackIntegration@0.4.0-1 -k test1234 --noprompt
-	```
+```powershell
+	sfdx force:package:install -u MyTP --wait 10 --package SlackIntegration@0.4.0-1 -k test1234 --noprompt
+```
 	
 	
 5. Add your workspace to Salesforce
