@@ -20,11 +20,15 @@ Contents:
 Go to https://api.slack.com -> Your apps
 
 1. Create a new slack application for current workspace
+
 	Press *Create New App*
+	
 	Choose your workspace
 	
 2. Add permissions for the application
+
 	Features -> QAuth & Permissions -> Scopes
+	
 	- admin
 	- channels:read
 	- channels:write
@@ -34,8 +38,11 @@ Go to https://api.slack.com -> Your apps
 	- users:read
 		
 3. Get workspace token
+
 	Features -> QAuth & Permissions  -> Install App to Workspace
+	
 	Select channel/user -> Allow
+	
 	Copy *QAuth Access Token*
 
 ### In Salesforce
@@ -48,13 +55,19 @@ Go to https://api.slack.com -> Your apps
 	
 	
 5. Add your workspace to Salesforce
-	Go to Slack Channels Tab -> Manage workspaces -> Add Workspace
-	Enter any name for the workspace and paste the *QAuth Access Token*
 
+	Go to Slack Channels Tab -> Manage workspaces -> Add Workspace
+	
+	Enter any name for the workspace and paste the *QAuth Access Token*
+	
 6. Add channels if needing
+
 	Go back to *Slack channels*
+	
 	Press *Add channel*
+	
 	Select channels, add them to selected list and press *Save*
+	
 
 	If channels for current workspace weren't added, a message will be sent to each user in workspace from Slackbot.
 
