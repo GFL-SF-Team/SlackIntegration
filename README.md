@@ -1,7 +1,21 @@
 # SlackIntegration package
+
+This package allows to send messages from Salesforce to Slack.
+
+Contents:
+
+* [Configuring Slack Integration]()
+	* [In Slack]()
+	* [In Salesforce]()
+* [Using Slack Integration]()
+	* [In Lightning]()
+	* [In Apex]()
+	
+--------
+
 ## Configuring Slack Integration
 
-### In slack
+### In Slack
 
 Go to https://api.slack.com -> Your apps
 
@@ -28,9 +42,9 @@ Go to https://api.slack.com -> Your apps
 
 4. Install the latest version of *SlackIntegration* package
 	
-```powershell
+	```
 	sfdx force:package:install -u MyTP --wait 10 --package SlackIntegration@0.4.0-1 -k test1234 --noprompt
-```
+	```
 	
 	
 5. Add your workspace to Salesforce
