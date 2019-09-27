@@ -50,7 +50,7 @@ Go to https://api.slack.com -> Your apps
 4. Install the latest version of *SlackIntegration* package
 	
 	```
-	sfdx force:package:install -u MyTP --wait 10 --package SlackIntegration@0.4.0-1 -k test1234 --noprompt
+	sfdx force:package:install -u DevHub --wait 10 --package SlackIntegration@0.4.0-1 -k test1234 --noprompt
 	```
 	
 	
