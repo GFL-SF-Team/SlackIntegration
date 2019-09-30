@@ -98,7 +98,8 @@ Go to https://api.slack.com -> Your apps
 
 ### In Apex
 
-Create an instance of `D_SlackMessage.ApexMessage` class, set type event, priority and exception. Then call `broadcast()` method:
+Create an instance of `D_SlackMessage.ApexMessage` class, set type event, priority and exception. 
+Then call `broadcast()` method:
 
 ```java
 
@@ -106,5 +107,18 @@ Create an instance of `D_SlackMessage.ApexMessage` class, set type event, priori
 	message.setTypeEvent(D_SlackMessage.EventType.INFO);
 	message.setPriorityLevel(D_SlackMessage.Priority.MEDIUM);
 	message.setThrownException(e);
+	message.broadcast();
+```
+
+You can also provide an additional text of the message (`notificationText`).
+Setting event type and priority can be omitted with the default values (EventType = INFO, Priority = LOW).
+Also you may omit an exception and set manually the class, method name and line number:
+
+```java
+	D_SlackMessage.ApexMessage message = new D_SlackMessage.ApexMessage();
+	message.setClassName('MyClass');
+	message.setMethodName('myMethod');
+	message.setLineNumber(62);
+	message.setNotificationText('Some notification...');
 	message.broadcast();
 ```
