@@ -3,11 +3,11 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Slack editor</label>
     <tabSettings>
-        <tab>SlackAppContainer</tab>
+        <tab>Slack_Channels</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>Slack_Channels</tab>
+        <tab>Slack_Send_Test</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

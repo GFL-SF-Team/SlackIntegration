@@ -1,9 +1,0 @@
-<aura:event type="APPLICATION" description="Send slack message" access="global">
-    <!--
-        This event is used for sending messages to Slack
-    !-->
-
-    <aura:attribute name="priority" type="String"/>
-    <aura:attribute name="type" type="String"/>
-    <aura:attribute name="textMessage" type="String"/>
-</aura:event>

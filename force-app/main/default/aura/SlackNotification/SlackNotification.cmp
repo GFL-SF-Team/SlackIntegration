@@ -1,6 +1,0 @@
-<aura:component implements="force:appHostable" controller="L_SlackNotificationController" access="global">
-
-    <ltng:require scripts="{!$Resource.CommonUtils}"/>
-    <aura:handler event="c:SlackNotificateEvent" action="{!c.handleSlackNotificationEvent}" />
-
-</aura:component>

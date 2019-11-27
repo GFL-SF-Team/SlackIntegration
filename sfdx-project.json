@@ -10,7 +10,7 @@
     ],
     "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "45.0",
+    "sourceApiVersion": "47.0",
     "packageAliases": {
         "SlackIntegration": "0Ho2o000000CaTDCA0",
         "SlackIntegration@0.2.0-1": "04t2o000000a9ZCAAY",

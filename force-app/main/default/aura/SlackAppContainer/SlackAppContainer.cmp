@@ -1,4 +1,0 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
-    <c:SlackNotification/>
-    <c:SlackSendNotificationExample/>
-</aura:component>
