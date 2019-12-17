@@ -1,0 +1,38 @@
+<template>
+
+
+    <div>
+        <div class="slds-card slds-p-around--large slds-m-around--medium">
+            <div class="slds-page-header">Manage channels from slack workspaces</div>
+            <div class="slds-col">
+                <div class="slds-m-bottom_small slds-size_1-of-4">
+                    <lightning-combobox name="workspaceSelect" label="Select workspace:" id="workspaceId"
+                                      onchange={updateChannels}
+                                      options={workspacesList} value={selectedWorkspaceValue}>
+                    </lightning-combobox>
+                </div>
+
+                <lightning-dual-listbox name="multipleOptions"
+                                       label="Select Channels"
+                                       source-label="Available"
+                                       selected-label="Selected"
+                                       value={channelsSelectedIds}
+                                       onchange={handleListboxChange}
+                                       options={channelsFromSlack}
+                >
+                </lightning-dual-listbox>
+            </div>
+        <div class="slds-m-around--medium">
+                <lightning-button-group>
+                    <lightning-button label="Cancel" class="slds-m-around_xxx-small" onclick={cancel}>
+                    </lightning-button>
+                    <lightning-button label="Save" class="slds-m-around_xxx-small" variant="brand" onclick={save}>
+                    </lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+
+    </div>
+
+    
+</template>

@@ -1,0 +1,30 @@
+<template>
+    
+    <div class="slds-card slds-p-around--large slds-m-around--medium">
+
+        <div class="slds-text-heading_large">
+            Workspace info
+        </div>
+        <div class="slds-m-around_small">
+            <div class="slds-size_1-of-4 slds-m-around--small">
+                <lightning-input data-id="input_name" label="Name" name="name" value={workspaceEdit.Name}>
+                </lightning-input> 
+            </div>
+            <div class="slds-size_2-of-3 slds-m-around--small">
+                <lightning-input data-id="input_token" label="Workspace token" name="workspace-token" value={workspaceEdit.Token__c}>
+                </lightning-input> 
+            </div>
+        </div>
+
+        <div class="slds-m-around--medium">
+            <lightning-button-group>
+                    <lightning-button label="Cancel" class="slds-m-around_xxx-small" onclick={cancel}>
+                    </lightning-button>
+                    <lightning-button label="Save" class="slds-m-around_xxx-small" variant="brand" onclick={save}>
+                    </lightning-button>
+            </lightning-button-group>
+        </div>
+
+    </div>
+
+</template>

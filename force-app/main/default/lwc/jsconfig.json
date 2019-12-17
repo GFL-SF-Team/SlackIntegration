@@ -2,11 +2,29 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "c/slackUtils": [
-                "slackUtils/slackUtils.js"
+            "c/slackChannels2": [
+                "slackChannels2/slackChannels2.js"
+            ],
+            "c/slackChannelsApp": [
+                "slackChannelsApp/slackChannelsApp.js"
+            ],
+            "c/slackChannelsManager2": [
+                "slackChannelsManager2/slackChannelsManager2.js"
             ],
             "c/slackSendNotificationExample": [
                 "slackSendNotificationExample/slackSendNotificationExample.js"
+            ],
+            "c/slackUtils": [
+                "slackUtils/slackUtils.js"
+            ],
+            "c/slackWorkspace2": [
+                "slackWorkspace2/slackWorkspace2.js"
+            ],
+            "c/slackWorkspacesList2": [
+                "slackWorkspacesList2/slackWorkspacesList2.js"
+            ],
+            "c/utils": [
+                "utils/utils.js"
             ]
         },
         "experimentalDecorators": true

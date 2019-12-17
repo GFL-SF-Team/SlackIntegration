@@ -24,42 +24,37 @@ private class L_SlackChannelsControllerTest {
 
 	@IsTest static void testGetSlackChannels() {
 
-		String jsonResult = L_SlackChannelsController.getSlackChannels();
-		SlackChannel__c[] channels;
-		channels = (List<SlackChannel__c>)JSON.deserialize(jsonResult, List<SlackChannel__c>.class);
+		SlackChannel__c[] channels = L_SlackChannelsController.getSlackChannels();
+		
 		System.assertEquals(2, channels.size());
 	}
 
 
 	@IsTest static void testGetWorkspaces() {
 
-		String jsonResult = L_SlackChannelsController.getWorkspaces();
-		Workspace__c[] workspaces = (List<Workspace__c>)JSON.deserialize(jsonResult, List<Workspace__c>.class);
+		 Workspace__c[] workspaces =L_SlackChannelsController.getWorkspaces();
 		System.assertEquals(1, workspaces.size());
 	}
 
 
 	@IsTest static void testGetExistingSlackChannels() {
 
-		String jsonWorkspaces = L_SlackChannelsController.getWorkspaces();
-		Workspace__c[] workspaces = (List<Workspace__c>)JSON.deserialize(jsonWorkspaces, List<Workspace__c>.class);
+		 Workspace__c[] workspaces =L_SlackChannelsController.getWorkspaces();
 		String workspaceToken = workspaces[0].Token__c;
 		Test.setMock(HttpCalloutMock.class, new Util_SlackNotifierMock());
 
 		Test.startTest();
-		String jsonChannels = L_SlackChannelsController.getExistingSlackChannels(workspaceToken);
+		 SlackChannel__c[] channels =L_SlackChannelsController.getExistingSlackChannels(workspaceToken);
 		Test.stopTest();
 
-		SlackChannel__c[] channels =
-				(List<SlackChannel__c>)JSON.deserialize(jsonChannels, List<SlackChannel__c>.class);
+		
 		System.assertEquals(1, channels.size());
 	}
 
 
 	@IsTest static void testSaveChannelsFromWorkspace() {
 
-		String jsonWorkspaces = L_SlackChannelsController.getWorkspaces();
-		Workspace__c[] workspaces = (List<Workspace__c>)JSON.deserialize(jsonWorkspaces, List<Workspace__c>.class);
+		 Workspace__c[] workspaces =L_SlackChannelsController.getWorkspaces();
 		Workspace__c workspace = workspaces[0];
 		String workspaceId = workspace.Id;
 		SlackChannel__c channel1 =

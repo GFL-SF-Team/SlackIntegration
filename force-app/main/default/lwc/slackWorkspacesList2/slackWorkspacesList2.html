@@ -1,0 +1,21 @@
+<template>
+  <div class="slds-card slds-p-around--large slds-m-around--medium">
+    <div class="slds-text-heading_large">Slack workspaces</div>
+    <div class="slds-m-around--medium">
+      <div class="slds-m-around--small">
+        <lightning-button label="Add Workspace" variant="brand" class="slds-m-around_xxx-small" onclick={newWorkspace}>
+        </lightning-button>
+        <lightning-button label="Back" variant="neutral" class="slds-m-around_xxx-small" onclick={back}>
+        </lightning-button>
+      </div>
+      <lightning-datatable
+        columns={columns}
+        data={workspacesList}
+        key-field="id"
+        hide-checkbox-column="true"
+        onrowaction={handleRowAction}
+      >
+      </lightning-datatable>
+    </div>
+  </div>
+</template>
