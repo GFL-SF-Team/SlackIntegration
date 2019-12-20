@@ -3,18 +3,20 @@
     <div class="slds-text-heading_large">Slack channels</div>
     <div class="slds-m-around--medium">
       <div class="slds-m-around--small">
+
         <lightning-button class="slds-m-around_xxx-small" label="Add channel" variant="brand" onclick={newChannelFromWorkspace}>
         </lightning-button>
         <lightning-button class="slds-m-around_xxx-small" label="Manage workspaces" variant="neutral" onclick={manageWorkspaces}>
         </lightning-button>
       </div>
-      <lightning-datatable
-        columns={columns}
-        data={channelsList}
-        key-field="id"
-        hide-checkbox-column="true"
-        onrowaction={handleRowAction}
-      >
+
+        <lightning-datatable
+          columns={columns}
+          data={channelsList}
+          key-field="id"
+          hide-checkbox-column="true"
+          onrowaction={handleRowAction}
+        >
       </lightning-datatable>
     </div>
   </div>

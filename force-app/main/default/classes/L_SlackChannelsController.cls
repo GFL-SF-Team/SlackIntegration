@@ -11,7 +11,7 @@ public class L_SlackChannelsController {
 	 * @description: Gets Slack channels from Custom Settings
 	 * @test: L_SlackChannelsControllerTest.testGetSlackChannels()
 	 */
-	@AuraEnabled(cacheable=true)
+	@AuraEnabled(cacheable=false)
 	public static SlackChannel__c[] getSlackChannels() {
 
 		// return JSON.serialize(Util_SlackSettingsData.getChannelsFromSettings());
@@ -24,7 +24,8 @@ public class L_SlackChannelsController {
 	 * @description: Gets Slack workspaces from Custom Settings
 	 * @test: L_SlackChannelsControllerTest.testGetWorkspaces()
 	 */
-	@AuraEnabled(cacheable=true)
+	// @AuraEnabled(cacheable=true)
+	@AuraEnabled(cacheable=false)
 	public static Workspace__c[] getWorkspaces() {
 
 		return Util_SlackSettingsData.getWorkspacesFromSettings();

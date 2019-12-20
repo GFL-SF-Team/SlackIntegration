@@ -62,13 +62,19 @@ export default class SlackChannelsManager2 extends LightningElement {
     let selectedWorkspace = this.workspacesList.filter(workspace => workspace.Token__c === this.selectedWorkspaceValue)[0];
     let workspaceId = selectedWorkspace.Id;
     let selectedChannels = this.channelsFromSlack.filter(channel => this.channelsSelectedIds.includes(channel.IdChannel__c));
+      selectedChannels = selectedChannels.map(channel => {
+        let {Id, Name, IdChannel__c, WorkspaceId__c} = channel;
+        return {Id, Name, IdChannel__c, WorkspaceId__c};
+      });
     await saveChannelsFromWorkspace({selectedChannels, workspaceId});
-    let workspaceChannels= this.channelsList.filter(channel => channel.WorkspaceId__c != workspaceId);
-    workspaceChannels.push(...selectedChannels);
-    this.channelsList = workspaceChannels;
+
+    // let workspaceChannels= this.channelsList.filter(channel => channel.WorkspaceId__c != workspaceId);
+    // workspaceChannels.push(...selectedChannels);
+    // this.channelsList = workspaceChannels;
 
     const changeEvent = new CustomEvent("changelist", {
-      detail: { channelsList: this.channelsList}
+      // detail: { channelsList: this.channelsList}
+      // detail: {selectedChannels, workspaceId}
     });
     this.dispatchEvent(changeEvent);
     
