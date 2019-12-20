@@ -1,37 +1,39 @@
 <template>
   <template if:true={isChannels}>
-    <c-slack-channels2
+    <c-slack-channels
       workspaces-list={workspacesList}
       channels-list={channelsList}
       onnavigate={handleNavigate}
+      onupdatedata={handleUpdateData}
     >
-    </c-slack-channels2>
+    </c-slack-channels>
   </template>
   <template if:true={isChannelManager}>
-    <c-slack-channels-manager2
+    <c-slack-channels-manager
       workspaces-list={workspacesList}
       channels-list={channelsList}
       onchangelist={handleChangeList}
       onnavigate={handleNavigate}
     >
-    </c-slack-channels-manager2>
+    </c-slack-channels-manager>
   </template>
 
   <template if:true={isWorkspaces}>
-    <c-slack-workspaces-list2
+    <c-slack-workspaces-list
       workspaces-list={workspacesList}
       onnavigate={handleNavigate}
       oneditworkspace={handleEditWorkspace}
+      onupdatedata={handleUpdateData}
     >
-    </c-slack-workspaces-list2>
+    </c-slack-workspaces-list>
   </template>
 
   <template if:true={isWorkspace}>
-    <c-slack-workspace2
+    <c-slack-workspace
       onnavigate={handleNavigate}
       workspace={editingWorkspace}
       onchangeworkspace={handleChangeWorkspace}
     >
-    </c-slack-workspace2>
+    </c-slack-workspace>
   </template>
 </template>

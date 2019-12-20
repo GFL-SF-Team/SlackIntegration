@@ -1,9 +1,8 @@
 import { LightningElement, api } from "lwc";
-import { NavigationMixin } from "lightning/navigation";
+import deleteWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.deleteWorkspace";
+import { navigateToChannels } from "c/slackUtils";
 
-export default class SlackWorkspacesList2 extends NavigationMixin(
-  LightningElement
-) {
+export default class SlackWorkspacesList extends LightningElement( LightningElement) {
   @api workspacesList = [];
   columns = [
     { label: "Workspace name", fieldName: "Name", type: "text" },
@@ -18,9 +17,15 @@ export default class SlackWorkspacesList2 extends NavigationMixin(
       }
     }
   ];
-  // workspaceMap = {};
 
-  newWorkspace(workspace = {}) {
+  newWorkspace() {
+    const navigateEvent = new CustomEvent("editworkspace", {
+      detail: { state: "workspace" }
+    });
+    this.dispatchEvent(navigateEvent);
+  }
+
+  editWorkspace(workspace) {
     const navigateEvent = new CustomEvent("editworkspace", {
       detail: { state: "workspace", workspace }
     });
@@ -28,14 +33,21 @@ export default class SlackWorkspacesList2 extends NavigationMixin(
   }
 
   back() {
-    const navigateEvent = new CustomEvent("navigate", {
-      detail: { state: "channels" }
-    });
+    // const navigateEvent = new CustomEvent("navigate", {
+    //   detail: { state: "channels" }
+    // });
+    // this.dispatchEvent(navigateEvent);
+    navigateToChannels(this);
+  }
+
+  updateData() {
+    const navigateEvent = new CustomEvent("updatedata", {});
     this.dispatchEvent(navigateEvent);
   }
 
-  deleteRecord(workspace) {
-    console.log(JSON.stringify(workspace));
+  async deleteRecord(workspace) {
+    await deleteWorkspace({ workspace });
+    this.updateData();
   }
 
   handleRowAction(event) {
@@ -43,7 +55,7 @@ export default class SlackWorkspacesList2 extends NavigationMixin(
     let workspace = event.detail.row;
     switch (action.name) {
       case "edit":
-        this.newWorkspace(workspace);
+        this.editWorkspace(workspace);
         break;
       case "delete":
         this.deleteRecord(workspace);
