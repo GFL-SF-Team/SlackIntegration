@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from "lwc";
 import getExistingSlackChannels from "@salesforce/apex/L_SlackChannelsController.getExistingSlackChannels";
 import saveChannelsFromWorkspace from "@salesforce/apex/L_SlackChannelsController.saveChannelsFromWorkspace";
-import { navigateToChannels } from "c/slackUtils";
+import { navigateToChannels, updateData } from "c/slackUtils";
 
 export default class SlackChannelsManager extends LightningElement {
 
@@ -43,7 +43,7 @@ export default class SlackChannelsManager extends LightningElement {
   }
 
   cancel() {
-    this.back();
+    navigateToChannels(this, false);
   }
 
   async save() {
@@ -55,34 +55,17 @@ export default class SlackChannelsManager extends LightningElement {
         return {Id, Name, IdChannel__c, WorkspaceId__c};
       });
     await saveChannelsFromWorkspace({selectedChannels, workspaceId});
+    navigateToChannels(this, true);
 
-    const changeEvent = new CustomEvent("changelist", {
-      // detail: { channelsList: this.channelsList}
-      // detail: {selectedChannels, workspaceId}
-    });
-    this.dispatchEvent(changeEvent);
-    
-    // this.back();
-
-
-    // console.log('channels list', JSON.stringify(this.channelsList));
   }
 
   handleListboxChange(event){
     this.channelsSelectedIds = event.detail.value;
-
   }
 
   updateChannels(event) {
     this.selectedWorkspaceValue = event.detail.value;
     this.getWorkspaceChannels();
-
   }
-  back() {
-    // const navigateEvent = new CustomEvent("navigate", {
-    //   detail: { state: "channels" }
-    // });
-    // this.dispatchEvent(navigateEvent);
-    navigateToChannels(this);
-  }
+  
 }

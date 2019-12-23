@@ -18,25 +18,29 @@ export function sendNotificationSlack(priority, type, textMessage) {
 }
 
 
-  export function navigateToChannels(cmp) {
-    navigateToState(cmp, CHANNELS_STATE);
+  export function navigateToChannels(cmp, update=false) {
+    navigateToState(cmp, CHANNELS_STATE, update);
   }
 
-  export function navigateToChannelsManager(cmp) {
-    navigateToState(cmp, CHANNELS_MANAGER_STATE);
+  export function navigateToChannelsManager(cmp, update=false) {
+    navigateToState(cmp, CHANNELS_MANAGER_STATE, update);
   }
 
-  export function navigateToWorkspaces(cmp) {
-    navigateToState(cmp, WORKSPACES_STATE);
+  export function navigateToWorkspaces(cmp, update=false) {
+    navigateToState(cmp, WORKSPACES_STATE, update);
   }
 
-  export function navigateToWorkspace(cmp) {
-    navigateToState(cmp, WORKSPACE_STATE);
+  export function navigateToWorkspace(cmp, update=false) {
+    navigateToState(cmp, WORKSPACE_STATE, update);
   }
 
-  export function navigateToState(cmp, state) {
+  export function updateData(cmp) {
+    navigateToState(cmp, false, true);
+  }
+
+  export function navigateToState(cmp, state, update) {
     const navigateEvent = new CustomEvent("navigate", {
-      detail: {state}
+      detail: {state, update}
     });
     cmp.dispatchEvent(navigateEvent);
   }

@@ -47,7 +47,12 @@ export default class SlackChannelsApp extends LightningElement {
   }
 
   handleNavigate(event) {
-    this.state = event.detail.state;
+    if (event.detail.update){
+      this.retrieveChannels();
+    }
+    if (event.detail.state){
+      this.state = event.detail.state;
+    }
   }
 
   handleChangeList(event) {

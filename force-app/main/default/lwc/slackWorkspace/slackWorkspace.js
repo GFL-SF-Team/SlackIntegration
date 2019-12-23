@@ -5,7 +5,6 @@ import { navigateToWorkspaces } from "c/slackUtils";
 export default class SlackWorkspace extends LightningElement {
   // @api workspace;
 
-  // @track workspaceEdit;
   workspaceEdit;
 
   @api
@@ -33,10 +32,6 @@ export default class SlackWorkspace extends LightningElement {
   }
 
   back() {
-    // const navigateEvent = new CustomEvent("navigate", {
-    //   detail: { state: "workspaces" }
-    // });
-    // this.dispatchEvent(navigateEvent);
     navigateToWorkspaces(this); 
   }
 }

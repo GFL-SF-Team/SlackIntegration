@@ -1,6 +1,6 @@
 import { LightningElement, wire, track, api } from "lwc";
 import deleteChannel from "@salesforce/apex/L_SlackChannelsController.deleteChannel";
-import { navigateToChannelsManager, navigateToWorkspaces } from "c/slackUtils";
+import { navigateToChannelsManager, navigateToWorkspaces, updateData } from "c/slackUtils";
 
 export default class SlackChannels extends LightningElement {
   columns = [
@@ -17,18 +17,10 @@ export default class SlackChannels extends LightningElement {
   @api workspacesList;
 
   manageChannels() {
-    // const navigateEvent = new CustomEvent("navigate", {
-    //   detail: { state: "channelManager" }
-    // });
-    // this.dispatchEvent(navigateEvent);
     navigateToChannelsManager(this);
   }
 
   manageWorkspaces() {
-    // const navigateEvent = new CustomEvent("navigate", {
-    //   detail: { state: "workspaces" }
-    // });
-    // this.dispatchEvent(navigateEvent);
     navigateToWorkspaces(this);
   }
 
@@ -43,15 +35,10 @@ export default class SlackChannels extends LightningElement {
     }
   }
 
-  updateData() {
-    const navigateEvent = new CustomEvent("updatedata", {});
-    this.dispatchEvent(navigateEvent);
-  }
-
   async deleteRecord(channel) {
     try {
       await deleteChannel({channel:{Id:channel.Id}});
-      this.updateData();
+      updateData(this);
       
     } catch (error) {
       console.log("error:", error);
