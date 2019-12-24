@@ -50,28 +50,12 @@ export default class SlackChannelsApp extends LightningElement {
     if (event.detail.update){
       this.retrieveChannels();
     }
+    if (event.detail.workspace){
+      this.editingWorkspace = event.detail.workspace;
+    }
     if (event.detail.state){
       this.state = event.detail.state;
     }
-  }
-
-  handleChangeList(event) {
-    this.retrieveChannels();
-    this.state = "channels";
-  }
-
-  handleChangeWorkspace(event) {
-    this.retrieveChannels();
-    this.state = "workspaces";
-  }
-
-  handleEditWorkspace(event) {
-    this.editingWorkspace = event.detail.workspace;
-    this.state = event.detail.state;
-  }
-
-  handleUpdateData(event){
-    this.retrieveChannels();
   }
 
   get isChannels() {

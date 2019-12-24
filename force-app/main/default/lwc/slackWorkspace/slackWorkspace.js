@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from "lwc";
 import saveWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.saveWorkspace";
-import { navigateToWorkspaces } from "c/slackUtils";
+import { navigateToWorkspaces, navigateToWorkspace } from "c/slackUtils";
 
 export default class SlackWorkspace extends LightningElement {
   // @api workspace;
@@ -21,10 +21,7 @@ export default class SlackWorkspace extends LightningElement {
     const inputToken = this.template.querySelector('[data-id="input_token"]');
     this.workspaceEdit = { ...this.workspaceEdit, Name: inputName.value, Token__c: inputToken.value};
     await saveWorkspace({ workspace: this.workspaceEdit });
-    const changeEvent = new CustomEvent("changeworkspace", {
-      detail: { workspace: this.workspaceEdit }
-    });
-    this.dispatchEvent(changeEvent);
+    navigateToWorkspaces(this, true);
   }
 
   cancel() {

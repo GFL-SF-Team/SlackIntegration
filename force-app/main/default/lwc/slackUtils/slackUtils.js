@@ -5,7 +5,6 @@ export const CHANNELS_MANAGER_STATE = 'channelManager';
 export const WORKSPACES_STATE = 'workspaces';
 export const WORKSPACE_STATE = 'workspace';
 
-
 export function sendNotificationSlack(priority, type, textMessage) {
     sendSlackNotification({priority, type, textMessage})
         .then(result => {
@@ -14,9 +13,7 @@ export function sendNotificationSlack(priority, type, textMessage) {
         .catch(error =>{
             console.log('Error string: ' + JSON.stringify(error) )
         });
-
 }
-
 
   export function navigateToChannels(cmp, update=false) {
     navigateToState(cmp, CHANNELS_STATE, update);
@@ -30,17 +27,17 @@ export function sendNotificationSlack(priority, type, textMessage) {
     navigateToState(cmp, WORKSPACES_STATE, update);
   }
 
-  export function navigateToWorkspace(cmp, update=false) {
-    navigateToState(cmp, WORKSPACE_STATE, update);
+  export function navigateToWorkspace(cmp, workspace=false) {
+    navigateToState(cmp, WORKSPACE_STATE, false, {workspace});
   }
 
   export function updateData(cmp) {
     navigateToState(cmp, false, true);
   }
 
-  export function navigateToState(cmp, state, update) {
+  export function navigateToState(cmp, state, update, param={}) {
     const navigateEvent = new CustomEvent("navigate", {
-      detail: {state, update}
+      detail: {state, update, ...param}
     });
     cmp.dispatchEvent(navigateEvent);
   }
