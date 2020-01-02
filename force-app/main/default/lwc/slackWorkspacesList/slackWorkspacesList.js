@@ -1,10 +1,11 @@
 import { LightningElement, api } from "lwc";
 import deleteWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.deleteWorkspace";
-import { navigateToChannels } from "c/slackUtils";
-import { navigateToWorkspace, updateData } from "c/slackUtils";
+import { navigateToChannels, navigateToWorkspace, updateData } from "c/slackUtils";
 
 export default class SlackWorkspacesList extends LightningElement( LightningElement) {
+
   @api workspacesList = [];
+
   columns = [
     { label: "Workspace name", fieldName: "Name", type: "text" },
     { label: "token", fieldName: "Token__c", type: "text" },
@@ -23,22 +24,14 @@ export default class SlackWorkspacesList extends LightningElement( LightningElem
     navigateToWorkspace(this);
   }
 
-  editWorkspace(workspace) {
-    navigateToWorkspace(this, workspace);
-  }
-
   back() {
     navigateToChannels(this);
-  }
-
-  async deleteRecord(workspace) {
-    await deleteWorkspace({ workspace });
-    updateData(this);
   }
 
   handleRowAction(event) {
     let action = event.detail.action;
     let workspace = event.detail.row;
+
     switch (action.name) {
       case "edit":
         this.editWorkspace(workspace);
@@ -48,4 +41,21 @@ export default class SlackWorkspacesList extends LightningElement( LightningElem
         break;
     }
   }
+
+  editWorkspace(workspace) {
+    navigateToWorkspace(this, workspace);
+  }
+
+  async deleteRecord(workspace) {
+
+    await deleteWorkspace({ workspace });
+    
+    this.workspacesList = this.workspacesList.filter(workspaceEl => workspaceEl.Id !== workspace.Id);
+    updateData(this);
+  }
+
+  get isEmptyWorkspacesList(){
+    return (this.workspacesList) && (this.workspacesList.length == 0);
+  }
+
 }

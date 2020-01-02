@@ -14,7 +14,7 @@ public class L_SlackWorkspacesListController {
 	@AuraEnabled
 	public static String getWorkspaces() {
 
-		return JSON.serialize(Util_SlackSettingsData.getWorkspacesFromSettings());
+		return Util_SlackSettingsData.getWorkspacesFromSettings();
 	}
 
 	/*

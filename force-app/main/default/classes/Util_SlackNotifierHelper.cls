@@ -56,7 +56,8 @@ public class Util_SlackNotifierHelper {
 		SlackChannel__c[] channels = new SlackChannel__c[]{};
 
 		for (SlackChannel channel : workspaceParsed.channels) {
-			channels.add(new SlackChannel__c(Name = channel.name, IdChannel__c = channel.id));
+			String nameUnique = channel.id;
+			channels.add(new SlackChannel__c(Name = nameUnique, NameChannel__c = channel.name, IdChannel__c = channel.id));
 		}
 
 		return channels;
@@ -114,7 +115,8 @@ public class Util_SlackNotifierHelper {
 		SlackChannel__c[] channels = new SlackChannel__c[]{};
 
 		for (SlackChannel channel : channelsParsed) {
-			channels.add(new SlackChannel__c(Name = channel.name, IdChannel__c = channel.id));
+			String nameUnique = channel.id;
+			channels.add(new SlackChannel__c(Name = nameUnique, NameChannel__c = channel.name, IdChannel__c = channel.id));
 		}
 
 		return channels;

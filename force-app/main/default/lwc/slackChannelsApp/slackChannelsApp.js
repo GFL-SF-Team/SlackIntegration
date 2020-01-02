@@ -1,4 +1,4 @@
-import { LightningElement, track, wire, api } from "lwc";
+import { LightningElement, track } from "lwc";
 import getSlackChannels from "@salesforce/apex/L_SlackChannelsController.getSlackChannels";
 import getWorkspaces from "@salesforce/apex/L_SlackChannelsController.getWorkspaces";
 import {CHANNELS_STATE, CHANNELS_MANAGER_STATE, WORKSPACES_STATE, WORKSPACE_STATE} from "c/slackUtils";
@@ -11,10 +11,13 @@ export default class SlackChannelsApp extends LightningElement {
   @track editingWorkspace;
 
   constructor() {
+
     super();
-    this.state = "channels";
-    window.history.replaceState("channels", null, "");
+    this.state = CHANNELS_STATE;
+    window.history.replaceState(CHANNELS_STATE, null, "");
+
     window.onpopstate = event => {
+
       if (event.state) {
         this.state = event.state;
       }
@@ -22,6 +25,7 @@ export default class SlackChannelsApp extends LightningElement {
   }
 
   connectedCallback() {
+
     this.retrieveChannels();
   }
 
@@ -36,6 +40,7 @@ export default class SlackChannelsApp extends LightningElement {
       }
 
       channels = channels.map(channel => {
+
         return {
           ...channel,
           workspaceName: workspacesMap[channel.WorkspaceId__c].Name
@@ -47,14 +52,18 @@ export default class SlackChannelsApp extends LightningElement {
   }
 
   handleNavigate(event) {
+
     if (event.detail.update){
       this.retrieveChannels();
     }
+
     if (event.detail.workspace){
       this.editingWorkspace = event.detail.workspace;
     }
+
     if (event.detail.state){
       this.state = event.detail.state;
+      window.history.pushState(event.detail.state, null);
     }
   }
 
@@ -63,11 +72,11 @@ export default class SlackChannelsApp extends LightningElement {
   }
 
   get isWorkspaces() {
-    return this.state === WORKSPACES_STATE
+    return this.state === WORKSPACES_STATE;
   }
 
   get isChannelManager() {
-    return this.state === CHANNELS_MANAGER_STATE
+    return this.state === CHANNELS_MANAGER_STATE;
   }
 
   get isWorkspace() {

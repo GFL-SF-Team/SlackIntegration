@@ -14,9 +14,7 @@ public class L_SlackChannelsController {
 	@AuraEnabled(cacheable=false)
 	public static SlackChannel__c[] getSlackChannels() {
 
-		// return JSON.serialize(Util_SlackSettingsData.getChannelsFromSettings());
 		return Util_SlackSettingsData.getChannelsFromSettings();
-		// return new SlackChannel__c[]{new SlackChannel__c(Name='My super Channel')};
 	}
 
 	/*
@@ -40,10 +38,7 @@ public class L_SlackChannelsController {
 	@AuraEnabled
 	public static SlackChannel__c[] getExistingSlackChannels(String workspaceToken) {
 
-		List<SlackChannel__c> channels = Util_SlackNotifierHelper.getWorkspaceChannelsFromSlack(workspaceToken);
-
-		// return JSON.serialize(channels);
-		return channels;
+		return Util_SlackNotifierHelper.getWorkspaceChannelsFromSlack(workspaceToken);
 	}
 
 	/*

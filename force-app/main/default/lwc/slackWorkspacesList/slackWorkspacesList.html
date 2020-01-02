@@ -8,6 +8,15 @@
         <lightning-button label="Back" variant="neutral" class="slds-m-around_xxx-small" onclick={back}>
         </lightning-button>
       </div>
+
+
+    <template if:true={isEmptyWorkspacesList}>
+      <div class="slds-m-around--medium">
+          No workspaces found
+      </div>
+    </template>
+
+    <template if:false={isEmptyWorkspacesList}>
       <lightning-datatable
         columns={columns}
         data={workspacesList}
@@ -16,6 +25,7 @@
         onrowaction={handleRowAction}
       >
       </lightning-datatable>
+    </template>
     </div>
   </div>
 </template>

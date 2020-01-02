@@ -17,15 +17,13 @@
   </template>
 
   <template if:true={isWorkspaces}>
-    <c-slack-workspaces-list
-      workspaces-list={workspacesList}
-      onnavigate={handleNavigate}
-    >
-    </c-slack-workspaces-list>
-  </template>
-
+    <c-slack-workspaces-list workspaces-list={workspacesList} onnavigate={handleNavigate}>
+    </c-slack-workspaces-list> 
+  </template> 
+  
   <template if:true={isWorkspace}>
     <c-slack-workspace workspace={editingWorkspace} onnavigate={handleNavigate}>
     </c-slack-workspace>
   </template>
+
 </template>

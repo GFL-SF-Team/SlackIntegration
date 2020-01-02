@@ -1,10 +1,10 @@
-import { LightningElement, wire, track, api } from "lwc";
+import { LightningElement, api } from "lwc";
 import deleteChannel from "@salesforce/apex/L_SlackChannelsController.deleteChannel";
 import { navigateToChannelsManager, navigateToWorkspaces, updateData } from "c/slackUtils";
 
 export default class SlackChannels extends LightningElement {
   columns = [
-    { label: "Channel name", fieldName: "Name", type: "text" },
+    { label: "Channel name", fieldName: "NameChannel__c", type: "text" },
     { label: "Channel Id", fieldName: "IdChannel__c", type: "text" },
     { label: "Workspace Name", fieldName: "workspaceName", type: "text" },
     {
@@ -17,7 +17,14 @@ export default class SlackChannels extends LightningElement {
   @api workspacesList;
 
   manageChannels() {
-    navigateToChannelsManager(this);
+
+    if (this.workspacesList.length > 0){
+      navigateToChannelsManager(this);
+
+    }else{
+      alert('Add a workspace first!');
+    }
+
   }
 
   manageWorkspaces() {
@@ -33,15 +40,23 @@ export default class SlackChannels extends LightningElement {
         this.deleteRecord(slackChannel);
         break;
     }
+
   }
 
   async deleteRecord(channel) {
+
     try {
       await deleteChannel({channel:{Id:channel.Id}});
+      this.channelsList = this.channelsList.filter(channelEl => channelEl.Id !== channel.Id);
       updateData(this);
       
     } catch (error) {
       console.log("error:", error);
     }
   }
+
+  get isEmptyChannelsList(){
+    return (this.channelsList) && (this.channelsList.length == 0);
+  }
+
 }
