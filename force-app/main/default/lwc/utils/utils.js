@@ -1,6 +1,10 @@
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+import * as $Validation from './validationUtils';
+// redirect all
+export * from './validationUtils';
 
+export const DEBUG_MODE = true;
 /**
  * @description to display error in console
  * @author Dmytro Lambru
@@ -116,6 +120,9 @@ export function handleErrorInResponseFromApex(cmp, response, isShowToast = true)
     }
 }
 
+export function handleValidationError(cmp, error) {
+    showToast(cmp, 'Validation Error!', error.message, 'error');
+}
 /**
  * @author Lambru Dmytro
  * @description Toast notification that pops up to alert users of a success, info, error, or warning.

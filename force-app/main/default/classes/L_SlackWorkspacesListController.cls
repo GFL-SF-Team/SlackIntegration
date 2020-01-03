@@ -12,7 +12,7 @@ public class L_SlackWorkspacesListController {
 	 * @test: L_SlackWorkspacesListControllerTest.testGetWorkspaces()
 	 */
 	@AuraEnabled
-	public static String getWorkspaces() {
+	public static Workspace__c[] getWorkspaces() {
 
 		return Util_SlackSettingsData.getWorkspacesFromSettings();
 	}

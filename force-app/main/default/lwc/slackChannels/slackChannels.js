@@ -1,8 +1,10 @@
 import { LightningElement, api } from "lwc";
 import deleteChannel from "@salesforce/apex/L_SlackChannelsController.deleteChannel";
 import { navigateToChannelsManager, navigateToWorkspaces, updateData } from "c/slackUtils";
+import {handleErrorInResponse} from "c/slackUtils";
 
 export default class SlackChannels extends LightningElement {
+  
   columns = [
     { label: "Channel name", fieldName: "NameChannel__c", type: "text" },
     { label: "Channel Id", fieldName: "IdChannel__c", type: "text" },
@@ -51,7 +53,7 @@ export default class SlackChannels extends LightningElement {
       updateData(this);
       
     } catch (error) {
-      console.log("error:", error);
+      handleErrorInResponse(this, error);
     }
   }
 

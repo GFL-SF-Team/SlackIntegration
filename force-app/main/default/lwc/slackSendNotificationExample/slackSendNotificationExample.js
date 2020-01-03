@@ -4,6 +4,7 @@ import {PRIORITY_HIGH, PRIORITY_MEDIUM, PRIORITY_LOW} from "c/slackUtils";
 import {TYPE_ERROR, TYPE_WARNING, TYPE_INFO} from "c/slackUtils";
 
 export default class SlackSendNotificationExample extends LightningElement {
+  
   priorityOptions = [
     { label: "High", value: PRIORITY_HIGH },
     { label: "Medium", value: PRIORITY_MEDIUM },
@@ -25,4 +26,5 @@ export default class SlackSendNotificationExample extends LightningElement {
   sendNotification(){
       sendNotificationSlack(this.priority, this.type, this.textMessage);
   }
+  
 }

@@ -1,9 +1,16 @@
 import { LightningElement, track } from "lwc";
 import getSlackChannels from "@salesforce/apex/L_SlackChannelsController.getSlackChannels";
 import getWorkspaces from "@salesforce/apex/L_SlackChannelsController.getWorkspaces";
-import {CHANNELS_STATE, CHANNELS_MANAGER_STATE, WORKSPACES_STATE, WORKSPACE_STATE} from "c/slackUtils";
+import {
+  CHANNELS_STATE,
+  CHANNELS_MANAGER_STATE,
+  WORKSPACES_STATE,
+  WORKSPACE_STATE
+} from "c/slackUtils";
+import {handleErrorInResponse} from "c/slackUtils";
 
 export default class SlackChannelsApp extends LightningElement {
+
   @track state;
 
   @track channelsList;
@@ -11,7 +18,6 @@ export default class SlackChannelsApp extends LightningElement {
   @track editingWorkspace;
 
   constructor() {
-
     super();
     this.state = CHANNELS_STATE;
     window.history.replaceState(CHANNELS_STATE, null, "");
@@ -25,14 +31,14 @@ export default class SlackChannelsApp extends LightningElement {
   }
 
   connectedCallback() {
-
     this.retrieveChannels();
   }
 
   async retrieveChannels() {
+
+    try {
       let workspaces = await getWorkspaces();
       let channels = await getSlackChannels();
-
       let workspacesMap = {};
 
       for (let workspace of workspaces) {
@@ -40,7 +46,6 @@ export default class SlackChannelsApp extends LightningElement {
       }
 
       channels = channels.map(channel => {
-
         return {
           ...channel,
           workspaceName: workspacesMap[channel.WorkspaceId__c].Name
@@ -49,19 +54,23 @@ export default class SlackChannelsApp extends LightningElement {
 
       this.workspacesList = workspaces;
       this.channelsList = channels;
+
+    } catch (error) {
+      handleErrorInResponse(this, error);
+    }
   }
 
   handleNavigate(event) {
 
-    if (event.detail.update){
+    if (event.detail.update) {
       this.retrieveChannels();
     }
 
-    if (event.detail.workspace){
+    if (event.detail.workspace) {
       this.editingWorkspace = event.detail.workspace;
     }
 
-    if (event.detail.state){
+    if (event.detail.state) {
       this.state = event.detail.state;
       window.history.pushState(event.detail.state, null);
     }

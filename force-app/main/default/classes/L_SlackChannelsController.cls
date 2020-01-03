@@ -6,15 +6,27 @@
  */
 public class L_SlackChannelsController {
 
+
+	public static final LightningResult RESPONSE =  new LightningResult();
 	/*
 	 * @date: 02.09.19
 	 * @description: Gets Slack channels from Custom Settings
 	 * @test: L_SlackChannelsControllerTest.testGetSlackChannels()
 	 */
-	@AuraEnabled(cacheable=false)
-	public static SlackChannel__c[] getSlackChannels() {
+	@AuraEnabled
+	public static LightningResult getSlackChannels() {
 
-		return Util_SlackSettingsData.getChannelsFromSettings();
+		SlackChannel__c[] slackChannelsList;
+
+		try{
+			slackChannelsList = Util_SlackSettingsData.getChannelsFromSettings();
+			RESPONSE.setResult(JSON.serialize(slackChannelsList));
+
+		}catch (Exception e){
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 
 	/*
@@ -22,11 +34,19 @@ public class L_SlackChannelsController {
 	 * @description: Gets Slack workspaces from Custom Settings
 	 * @test: L_SlackChannelsControllerTest.testGetWorkspaces()
 	 */
-	// @AuraEnabled(cacheable=true)
-	@AuraEnabled(cacheable=false)
-	public static Workspace__c[] getWorkspaces() {
+	@AuraEnabled
+	public static LightningResult getWorkspaces() {
+		Workspace__c[] slackWorkspacesList;
 
-		return Util_SlackSettingsData.getWorkspacesFromSettings();
+		try{
+			slackWorkspacesList = Util_SlackSettingsData.getWorkspacesFromSettings();
+			RESPONSE.setResult(JSON.serialize(slackWorkspacesList));
+
+		}catch (Exception e){
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 
 	/*
@@ -38,7 +58,17 @@ public class L_SlackChannelsController {
 	@AuraEnabled
 	public static SlackChannel__c[] getExistingSlackChannels(String workspaceToken) {
 
-		return Util_SlackNotifierHelper.getWorkspaceChannelsFromSlack(workspaceToken);
+		SlackChannel__c[] slackChannelsList;
+
+		try{
+			slackChannelsList = Util_SlackNotifierHelper.getWorkspaceChannelsFromSlack(workspaceToken); 
+			RESPONSE.setResult(JSON.serialize(slackChannelsList));
+
+		}catch (Exception e){
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 
 	/*
@@ -51,7 +81,15 @@ public class L_SlackChannelsController {
 	@AuraEnabled
 	public static void saveChannelsFromWorkspace(SlackChannel__c[] selectedChannels, String workspaceId) {
 
-		Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannels, workspaceId);
+		try{
+			Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannels, workspaceId);
+			RESPONSE.setResult(JSON.serialize(''));
+
+		}catch (Exception e){
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 
 	/*
@@ -63,6 +101,14 @@ public class L_SlackChannelsController {
 	@AuraEnabled
 	public static void deleteChannel(SlackChannel__c channel) {
 
-		Util_SlackSettingsData.deleteChannel(channel);
+		try{
+			Util_SlackSettingsData.deleteChannel(channel);
+			RESPONSE.setResult(JSON.serialize(''));
+
+		}catch (Exception e){
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 }

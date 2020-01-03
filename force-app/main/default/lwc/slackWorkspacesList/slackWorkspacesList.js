@@ -1,9 +1,15 @@
 import { LightningElement, api } from "lwc";
 import deleteWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.deleteWorkspace";
-import { navigateToChannels, navigateToWorkspace, updateData } from "c/slackUtils";
+import {
+  navigateToChannels,
+  navigateToWorkspace,
+  updateData
+} from "c/slackUtils";
+import { handleErrorInResponse } from "c/slackUtils";
 
-export default class SlackWorkspacesList extends LightningElement( LightningElement) {
-
+export default class SlackWorkspacesList extends LightningElement(
+  LightningElement
+) {
   @api workspacesList = [];
 
   columns = [
@@ -47,15 +53,19 @@ export default class SlackWorkspacesList extends LightningElement( LightningElem
   }
 
   async deleteRecord(workspace) {
+    try {
+      await deleteWorkspace({ workspace });
 
-    await deleteWorkspace({ workspace });
-    
-    this.workspacesList = this.workspacesList.filter(workspaceEl => workspaceEl.Id !== workspace.Id);
-    updateData(this);
+      this.workspacesList = this.workspacesList.filter(
+        workspaceEl => workspaceEl.Id !== workspace.Id
+      );
+      updateData(this);
+    } catch (error) {
+      handleErrorInResponse(this, error);
+    }
   }
 
-  get isEmptyWorkspacesList(){
-    return (this.workspacesList) && (this.workspacesList.length == 0);
+  get isEmptyWorkspacesList() {
+    return this.workspacesList && this.workspacesList.length == 0;
   }
-
 }
