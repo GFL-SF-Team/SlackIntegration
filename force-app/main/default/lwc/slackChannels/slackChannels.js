@@ -53,7 +53,7 @@ export default class SlackChannels extends LightningElement {
       updateData(this);
       
     } catch (error) {
-      handleErrorInResponse(this, error);
+      // handleErrorInResponse(this, error);
     }
   }
 

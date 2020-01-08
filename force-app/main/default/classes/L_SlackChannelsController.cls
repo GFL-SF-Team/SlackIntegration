@@ -56,7 +56,7 @@ public class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testGetExistingSlackChannels()
 	 */
 	@AuraEnabled
-	public static SlackChannel__c[] getExistingSlackChannels(String workspaceToken) {
+	public static LightningResult getExistingSlackChannels(String workspaceToken) {
 
 		SlackChannel__c[] slackChannelsList;
 
@@ -79,7 +79,7 @@ public class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testSaveChannelsFromWorkspace()
 	 */
 	@AuraEnabled
-	public static void saveChannelsFromWorkspace(SlackChannel__c[] selectedChannels, String workspaceId) {
+	public static LightningResult saveChannelsFromWorkspace(SlackChannel__c[] selectedChannels, String workspaceId) {
 
 		try{
 			Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannels, workspaceId);
@@ -99,7 +99,7 @@ public class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testDeleteChannel()
 	 */
 	@AuraEnabled
-	public static void deleteChannel(SlackChannel__c channel) {
+	public static LightningResult deleteChannel(SlackChannel__c channel) {
 
 		try{
 			Util_SlackSettingsData.deleteChannel(channel);

@@ -6,15 +6,24 @@
  */
 public class L_SlackWorkspacesListController {
 
+	public static final LightningResult RESPONSE = new LightningResult();
+
 	/*
 	 * @date: 02.09.19
 	 * @description: Gets workspaces from Custom Settings
 	 * @test: L_SlackWorkspacesListControllerTest.testGetWorkspaces()
 	 */
 	@AuraEnabled
-	public static Workspace__c[] getWorkspaces() {
+	public static LightningResult getWorkspaces() {
+		Workspace__c[] workspacesList;
+		try{
+			workspacesList = Util_SlackSettingsData.getWorkspacesFromSettings();
+			RESPONSE.setResult(JSON.serialize(workspacesList));
+		} catch(Exception e) {
+			RESPONSE.setError(e.getMessage());
+		}
 
-		return Util_SlackSettingsData.getWorkspacesFromSettings();
+		return RESPONSE;
 	}
 
 	/*
@@ -24,9 +33,17 @@ public class L_SlackWorkspacesListController {
 	 * @test: L_SlackWorkspacesListControllerTest.testSaveWorkspace()
 	 */
 	@AuraEnabled
-	public static void saveWorkspace(Workspace__c workspace) {
+	public static LightningResult saveWorkspace(Workspace__c workspace) {
 
-		Util_SlackSettingsData.saveWorkspace(workspace);
+		try{
+
+			Util_SlackSettingsData.saveWorkspace(workspace);
+			RESPONSE.setResult(JSON.serialize(''));
+		} catch(Exception e) {
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 
 	/*
@@ -36,8 +53,15 @@ public class L_SlackWorkspacesListController {
 	 * @test: L_SlackWorkspacesListControllerTest.testDeleteWorkspace()
 	 */
 	@AuraEnabled
-	public static void deleteWorkspace(Workspace__c workspace) {
+	public static LightningResult deleteWorkspace(Workspace__c workspace) {
+		try{
 
-		Util_SlackSettingsData.deleteWorkspace(workspace);
+			Util_SlackSettingsData.deleteWorkspace(workspace);
+			RESPONSE.setResult(JSON.serialize(''));
+		} catch(Exception e) {
+			RESPONSE.setError(e.getMessage());
+		}
+
+		return RESPONSE;
 	}
 }

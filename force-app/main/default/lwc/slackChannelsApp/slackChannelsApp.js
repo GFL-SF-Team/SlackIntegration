@@ -7,10 +7,10 @@ import {
   WORKSPACES_STATE,
   WORKSPACE_STATE
 } from "c/slackUtils";
-import {handleErrorInResponse} from "c/slackUtils";
+// import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/slackUtils";
+import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/utils";
 
 export default class SlackChannelsApp extends LightningElement {
-
   @track state;
 
   @track channelsList;
@@ -23,7 +23,6 @@ export default class SlackChannelsApp extends LightningElement {
     window.history.replaceState(CHANNELS_STATE, null, "");
 
     window.onpopstate = event => {
-
       if (event.state) {
         this.state = event.state;
       }
@@ -35,10 +34,10 @@ export default class SlackChannelsApp extends LightningElement {
   }
 
   async retrieveChannels() {
-
     try {
-      let workspaces = await getWorkspaces();
-      let channels = await getSlackChannels();
+      // debugger;
+      let workspaces = await this.getWorkspacesFromApex(this);
+      let channels = await this.getSlackChannelsFromApex(this);
       let workspacesMap = {};
 
       for (let workspace of workspaces) {
@@ -54,14 +53,62 @@ export default class SlackChannelsApp extends LightningElement {
 
       this.workspacesList = workspaces;
       this.channelsList = channels;
-
     } catch (error) {
-      handleErrorInResponse(this, error);
+      // handleErrorInResponse(this, error);
     }
   }
 
-  handleNavigate(event) {
+  getWorkspacesFromApex(cmp) {
+    return new Promise(async (resolve, reject) => {
+      let result;
 
+      try {
+        let response = await getWorkspaces();
+        if (response.success) {
+          result = JSON.parse(response.data);
+          resolve(result);
+          // this.handleResponseWithComponentData(cmp, response.data);
+        } else if (!response.success && response.code === 1001) {
+          console.log('Notify With Error');
+          // this.showNotifyWithError(cmp, response.message);
+        } else {
+          handleErrorInResponseFromApex(cmp, response);
+          reject();
+        }
+      } catch (error) {
+        handleErrorInResponse(cmp, error);
+        reject(error);
+      }
+      resolve(result);
+    });
+  }
+
+  getSlackChannelsFromApex(cmp) {
+    return new Promise(async (resolve, reject) => {
+      let result;
+
+      try {
+        let response = await getSlackChannels();
+        if (response.success) {
+          result = JSON.parse(response.data);
+          resolve(result);
+          // this.handleResponseWithComponentData(cmp, response.data);
+        } else if (!response.success && response.code === 1001) {
+          console.log('Notify With Error');
+          // this.showNotifyWithError(cmp, response.message);
+        } else {
+          handleErrorInResponseFromApex(cmp, response);
+          reject();
+        }
+      } catch (error) {
+        handleErrorInResponse(cmp, error);
+        reject(error);
+      }
+      resolve(result);
+    });
+  }
+
+  handleNavigate(event) {
     if (event.detail.update) {
       this.retrieveChannels();
     }

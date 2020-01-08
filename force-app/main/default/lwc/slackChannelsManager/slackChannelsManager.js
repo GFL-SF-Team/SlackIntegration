@@ -2,7 +2,8 @@ import { LightningElement, api, track } from "lwc";
 import getExistingSlackChannels from "@salesforce/apex/L_SlackChannelsController.getExistingSlackChannels";
 import saveChannelsFromWorkspace from "@salesforce/apex/L_SlackChannelsController.saveChannelsFromWorkspace";
 import { navigateToChannels } from "c/slackUtils";
-import {handleErrorInResponse} from "c/slackUtils";
+// import {handleErrorInResponse} from "c/slackUtils";
+import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/utils";
 
 export default class SlackChannelsManager extends LightningElement {
   @api workspacesList;
@@ -28,7 +29,7 @@ export default class SlackChannelsManager extends LightningElement {
   async getWorkspaceChannels(selectedWorkspace) {
 
     try {
-      this.channelsFromSlack = await getExistingSlackChannels({
+      this.channelsFromSlack = await this.getExistingSlackChannelsFromApex({
         workspaceToken: selectedWorkspace.Token__c
       });
 
@@ -57,10 +58,35 @@ export default class SlackChannelsManager extends LightningElement {
       );
 
     } catch (error) {
-      handleErrorInResponse(this, error);
+      
+      // handleErrorInResponse(this, error);
     }
   }
 
+  getExistingSlackChannelsFromApex(cmp) {
+    return new Promise(async (resolve, reject) => {
+      let result;
+
+      try {
+        let response = await getExistingSlackChannels();
+        if (response.success) {
+          result = JSON.parse(response.data);
+          resolve(result);
+          // this.handleResponseWithComponentData(cmp, response.data);
+        } else if (!response.success && response.code === 1001) {
+          console.log('Notify With Error');
+          // this.showNotifyWithError(cmp, response.message);
+        } else {
+          handleErrorInResponseFromApex(cmp, response);
+          reject();
+        }
+      } catch (error) {
+        handleErrorInResponse(cmp, error);
+        reject(error);
+      }
+      resolve(result);
+    });
+  }
   cancel() {
     navigateToChannels(this, false);
   }
@@ -81,7 +107,7 @@ export default class SlackChannelsManager extends LightningElement {
       navigateToChannels(this, true);
 
     } catch (error) {
-      handleErrorInResponse(this, error);
+      // handleErrorInResponse(this, error);
     }
   }
 

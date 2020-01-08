@@ -61,7 +61,9 @@ export default class SlackWorkspacesList extends LightningElement(
       );
       updateData(this);
     } catch (error) {
-      handleErrorInResponse(this, error);
+      console.log(error);
+      console.log(JSON.stringify(error));
+      // handleErrorInResponse(this, error);
     }
   }
 

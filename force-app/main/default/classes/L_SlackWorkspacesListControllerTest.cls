@@ -19,7 +19,7 @@ private class L_SlackWorkspacesListControllerTest {
 
 	@IsTest static void testGetWorkspaces() {
 
-		String jsonResult = L_SlackWorkspacesListController.getWorkspaces();
+		String jsonResult = L_SlackWorkspacesListController.getWorkspaces().data;
 		Workspace__c[] workspaces = (List<Workspace__c>)JSON.deserialize(jsonResult, List<Workspace__c>.class);
 		System.assertEquals(2, workspaces.size());
 	}
