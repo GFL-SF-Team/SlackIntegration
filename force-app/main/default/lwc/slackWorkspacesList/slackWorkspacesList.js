@@ -5,7 +5,6 @@ import {
   navigateToWorkspace,
   updateData
 } from "c/slackUtils";
-import { handleErrorInResponse } from "c/slackUtils";
 
 export default class SlackWorkspacesList extends LightningElement(
   LightningElement
@@ -54,7 +53,7 @@ export default class SlackWorkspacesList extends LightningElement(
 
   async deleteRecord(workspace) {
     try {
-      await deleteWorkspace({ workspace });
+      await deleteWorkspace({ workspace});
 
       this.workspacesList = this.workspacesList.filter(
         workspaceEl => workspaceEl.Id !== workspace.Id

@@ -8,7 +8,7 @@ import {
   WORKSPACE_STATE
 } from "c/slackUtils";
 // import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/slackUtils";
-import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/utils";
+import { handleErrorInResponse, handleErrorInResponseFromApex, showNotifyWithError } from "c/utils";
 
 export default class SlackChannelsApp extends LightningElement {
   @track state;
@@ -35,7 +35,6 @@ export default class SlackChannelsApp extends LightningElement {
 
   async retrieveChannels() {
     try {
-      // debugger;
       let workspaces = await this.getWorkspacesFromApex(this);
       let channels = await this.getSlackChannelsFromApex(this);
       let workspacesMap = {};
@@ -58,54 +57,48 @@ export default class SlackChannelsApp extends LightningElement {
     }
   }
 
-  getWorkspacesFromApex(cmp) {
-    return new Promise(async (resolve, reject) => {
+  async getWorkspacesFromApex(cmp) {
       let result;
-
       try {
         let response = await getWorkspaces();
         if (response.success) {
           result = JSON.parse(response.data);
-          resolve(result);
-          // this.handleResponseWithComponentData(cmp, response.data);
+          result.forEach(elem => {
+            delete elem.attributes;
+          });
         } else if (!response.success && response.code === 1001) {
-          console.log('Notify With Error');
-          // this.showNotifyWithError(cmp, response.message);
+          // console.log(response.message);
+          showNotifyWithError(cmp, response.message);
         } else {
           handleErrorInResponseFromApex(cmp, response);
-          reject();
         }
       } catch (error) {
         handleErrorInResponse(cmp, error);
-        reject(error);
       }
-      resolve(result);
-    });
+    return result;
   }
 
-  getSlackChannelsFromApex(cmp) {
-    return new Promise(async (resolve, reject) => {
+  async getSlackChannelsFromApex(cmp) {
       let result;
 
       try {
         let response = await getSlackChannels();
         if (response.success) {
           result = JSON.parse(response.data);
-          resolve(result);
+          result.forEach(elem => {
+            delete elem.attributes;
+          });
           // this.handleResponseWithComponentData(cmp, response.data);
         } else if (!response.success && response.code === 1001) {
-          console.log('Notify With Error');
-          // this.showNotifyWithError(cmp, response.message);
+          // console.log(response.message);
+          showNotifyWithError(cmp, response.message);
         } else {
           handleErrorInResponseFromApex(cmp, response);
-          reject();
         }
       } catch (error) {
         handleErrorInResponse(cmp, error);
-        reject(error);
       }
-      resolve(result);
-    });
+    return result;
   }
 
   handleNavigate(event) {

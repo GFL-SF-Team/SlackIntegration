@@ -168,3 +168,14 @@ export function showCriticalErrorToast(cmp, code) {
     showToast(cmp, title, message, variant, mode);
 }
 
+export function showNotifyWithError(cmp, messageText){
+    if (!$Validation.isInheritedFromLightningElement(cmp)) return;
+
+    const title = messageText;
+    let message = '';
+    const variant = 'error';
+    const mode = 'sticky';
+
+    showToast(cmp, title, message, variant, mode);
+
+}

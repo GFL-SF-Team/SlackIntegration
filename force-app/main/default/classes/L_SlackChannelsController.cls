@@ -105,6 +105,9 @@ public class L_SlackChannelsController {
 			Util_SlackSettingsData.deleteChannel(channel);
 			RESPONSE.setResult(JSON.serialize(''));
 
+		}catch (DmlException e){
+			RESPONSE.setError(e.getMessage());
+
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());
 		}

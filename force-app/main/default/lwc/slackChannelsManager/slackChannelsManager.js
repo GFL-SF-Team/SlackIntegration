@@ -3,7 +3,7 @@ import getExistingSlackChannels from "@salesforce/apex/L_SlackChannelsController
 import saveChannelsFromWorkspace from "@salesforce/apex/L_SlackChannelsController.saveChannelsFromWorkspace";
 import { navigateToChannels } from "c/slackUtils";
 // import {handleErrorInResponse} from "c/slackUtils";
-import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/utils";
+import { handleErrorInResponse, handleErrorInResponseFromApex, showNotifyWithError } from "c/utils";
 
 export default class SlackChannelsManager extends LightningElement {
   @api workspacesList;
@@ -29,9 +29,7 @@ export default class SlackChannelsManager extends LightningElement {
   async getWorkspaceChannels(selectedWorkspace) {
 
     try {
-      this.channelsFromSlack = await this.getExistingSlackChannelsFromApex({
-        workspaceToken: selectedWorkspace.Token__c
-      });
+      this.channelsFromSlack = await this.getExistingSlackChannelsFromApex(this, selectedWorkspace.Token__c);
 
       let workspaceId = selectedWorkspace.Id;
 
@@ -58,34 +56,32 @@ export default class SlackChannelsManager extends LightningElement {
       );
 
     } catch (error) {
-      
+      console.log(error);
       // handleErrorInResponse(this, error);
     }
   }
 
-  getExistingSlackChannelsFromApex(cmp) {
-    return new Promise(async (resolve, reject) => {
+  async getExistingSlackChannelsFromApex(cmp, workspaceToken) {
       let result;
 
       try {
-        let response = await getExistingSlackChannels();
+        let response = await getExistingSlackChannels({workspaceToken});
         if (response.success) {
           result = JSON.parse(response.data);
-          resolve(result);
+          result.forEach(elem => {
+            delete elem.attributes;
+          });
           // this.handleResponseWithComponentData(cmp, response.data);
         } else if (!response.success && response.code === 1001) {
-          console.log('Notify With Error');
-          // this.showNotifyWithError(cmp, response.message);
+          // console.log('Notify With Error');
+          showNotifyWithError(cmp, response.message);
         } else {
           handleErrorInResponseFromApex(cmp, response);
-          reject();
         }
       } catch (error) {
         handleErrorInResponse(cmp, error);
-        reject(error);
       }
-      resolve(result);
-    });
+      return result;
   }
   cancel() {
     navigateToChannels(this, false);

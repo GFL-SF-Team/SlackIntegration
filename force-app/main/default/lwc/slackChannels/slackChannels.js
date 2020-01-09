@@ -1,7 +1,8 @@
 import { LightningElement, api } from "lwc";
 import deleteChannel from "@salesforce/apex/L_SlackChannelsController.deleteChannel";
 import { navigateToChannelsManager, navigateToWorkspaces, updateData } from "c/slackUtils";
-import {handleErrorInResponse} from "c/slackUtils";
+// import {handleErrorInResponse} from "c/slackUtils";
+import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/utils";
 
 export default class SlackChannels extends LightningElement {
   
@@ -48,7 +49,8 @@ export default class SlackChannels extends LightningElement {
   async deleteRecord(channel) {
 
     try {
-      await deleteChannel({channel:{Id:channel.Id}});
+      // await deleteChannel({channel});
+      this.deleteChannelFromApex(this,channel);
       this.channelsList = this.channelsList.filter(channelEl => channelEl.Id !== channel.Id);
       updateData(this);
       
@@ -57,6 +59,25 @@ export default class SlackChannels extends LightningElement {
     }
   }
 
+  async deleteChannelFromApex(cmp, channel) {
+      let result;
+      try {
+        let response = await deleteChannel({channel});
+        if (response.success) {
+          result = JSON.parse(response.data);
+          // result.forEach(elem => {
+            // delete elem.attributes;
+          // });
+        } else if (!response.success && response.code === 1001) {
+          console.log('Notify With Error');
+        } else {
+          handleErrorInResponseFromApex(cmp, response);
+        }
+      } catch (error) {
+        handleErrorInResponse(cmp, error);
+      }
+    return result;
+  }
   get isEmptyChannelsList(){
     return (this.channelsList) && (this.channelsList.length == 0);
   }

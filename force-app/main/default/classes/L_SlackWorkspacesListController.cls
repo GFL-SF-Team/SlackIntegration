@@ -55,7 +55,6 @@ public class L_SlackWorkspacesListController {
 	@AuraEnabled
 	public static LightningResult deleteWorkspace(Workspace__c workspace) {
 		try{
-
 			Util_SlackSettingsData.deleteWorkspace(workspace);
 			RESPONSE.setResult(JSON.serialize(''));
 		} catch(Exception e) {
