@@ -1,11 +1,14 @@
 import { LightningElement, api } from "lwc";
 import saveWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.saveWorkspace";
 import { navigateToWorkspaces } from "c/slackUtils";
-// import { handleErrorInResponse } from "c/slackUtils";
-import { handleErrorInResponse, handleValidationError } from "c/utils";
+import {
+  handleValidationError,
+  handleErrorInResponse,
+  handleErrorInResponseFromApex,
+  showNotifyWithError
+} from "c/utils";
 
 export default class SlackWorkspace extends LightningElement {
-
   @api workspace;
 
   async save() {
@@ -19,19 +22,22 @@ export default class SlackWorkspace extends LightningElement {
     };
 
     try {
-
       if (!inputName.value) throw new Error("Name is empty");
 
       if (!inputToken.value) throw new Error("Token is empty");
 
       try {
-        await saveWorkspace({ workspace: this.workspace });
-        navigateToWorkspaces(this, true);
-
+        let response = await saveWorkspace({ workspace: this.workspace });
+        if (response.success) {
+          navigateToWorkspaces(this, true);
+        } else if (!response.success && response.code === 1001) {
+          showNotifyWithError(this, response.message);
+        } else {
+          handleErrorInResponseFromApex(this, response);
+        }
       } catch (error) {
         handleErrorInResponse(this, error);
       }
-
     } catch (error) {
       handleValidationError(this, error);
     }

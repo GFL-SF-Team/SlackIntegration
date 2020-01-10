@@ -62,7 +62,7 @@ public class L_SlackChannelsController {
 
 		try{
 			slackChannelsList = Util_SlackNotifierHelper.getWorkspaceChannelsFromSlack(workspaceToken); 
-			RESPONSE.setResult(JSON.serialize(slackChannelsList));
+			RESPONSE.setResult('');
 
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());
@@ -83,7 +83,7 @@ public class L_SlackChannelsController {
 
 		try{
 			Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannels, workspaceId);
-			RESPONSE.setResult(JSON.serialize(''));
+			RESPONSE.setResult('');
 
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());
@@ -103,10 +103,7 @@ public class L_SlackChannelsController {
 
 		try{
 			Util_SlackSettingsData.deleteChannel(channel);
-			RESPONSE.setResult(JSON.serialize(''));
-
-		}catch (DmlException e){
-			RESPONSE.setError(e.getMessage());
+			RESPONSE.setResult('');
 
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());

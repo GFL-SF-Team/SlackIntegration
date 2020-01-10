@@ -2,7 +2,6 @@ import { LightningElement, api, track } from "lwc";
 import getExistingSlackChannels from "@salesforce/apex/L_SlackChannelsController.getExistingSlackChannels";
 import saveChannelsFromWorkspace from "@salesforce/apex/L_SlackChannelsController.saveChannelsFromWorkspace";
 import { navigateToChannels } from "c/slackUtils";
-// import {handleErrorInResponse} from "c/slackUtils";
 import { handleErrorInResponse, handleErrorInResponseFromApex, showNotifyWithError } from "c/utils";
 
 export default class SlackChannelsManager extends LightningElement {
@@ -99,11 +98,16 @@ export default class SlackChannelsManager extends LightningElement {
     let workspaceId = selectedWorkspace.Id;
 
     try {
-      await saveChannelsFromWorkspace({ selectedChannels, workspaceId });
-      navigateToChannels(this, true);
-
+      let response = await saveChannelsFromWorkspace({ selectedChannels, workspaceId });
+      if (response.success) {
+        navigateToChannels(this, true);
+      } else if (!response.success && response.code === 1001) {
+        showNotifyWithError(this, response.message);
+      } else {
+        handleErrorInResponseFromApex(this, response);
+      }
     } catch (error) {
-      // handleErrorInResponse(this, error);
+      handleErrorInResponse(this, error);
     }
   }
 

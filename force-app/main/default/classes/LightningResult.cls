@@ -24,31 +24,27 @@ public class LightningResult {
 	public Integer code {get; set;}
 
 	/* For success response - set JSON data  */
-	public LightningResult setResult(String data) {
+	public void setResult(String data) {
 		this.data = data;
 		this.success = TRUE;
-		return this;
 	}
 
 	/* For error response - set message */
-	public LightningResult setError(String message) {
+	public void setError(String message) {
 		this.message = message;
 		this.success = FALSE;
-		return this;
 	}
 
 	/* For error response with error code number */
-	public LightningResult setError(Integer code) {
+	public void setError(Integer code) {
 		this.code = code;
 		this.success = FALSE;
-		return this;
 	}
 
 	/* For error response with message and error code number */
-	public LightningResult setError(String message, Integer code) {
+	public void setError(String message, Integer code) {
 		this.message = message;
 		this.code = code;
 		this.success = FALSE;
-		return this;
 	}
 }

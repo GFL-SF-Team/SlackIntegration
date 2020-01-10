@@ -52,21 +52,3 @@ export function navigateToState(cmp, state, update, param = {}) {
   cmp.dispatchEvent(navigateEvent);
 }
 
-export function handleErrorInResponse(cmp, error){
-  let errorStr = JSON.stringify(error);
-  console.log(error);
-  console.log(errorStr);
-  // showToast(cmp, 'Error!', error.message, 'error');
-}
-
-// export function showToast(cmp, title, message, variant = 'success', mode = 'dismissable') {
-
-//     const newEvent = new ShowToastEvent({
-//         title,
-//         message,
-//         variant,
-//         mode
-//     });
-
-//     cmp.dispatchEvent(newEvent);
-// }

@@ -7,8 +7,12 @@ import {
   WORKSPACES_STATE,
   WORKSPACE_STATE
 } from "c/slackUtils";
-// import { handleErrorInResponse, handleErrorInResponseFromApex } from "c/slackUtils";
-import { handleErrorInResponse, handleErrorInResponseFromApex, showNotifyWithError } from "c/utils";
+import {
+  handleErrorInResponse,
+  handleErrorInResponseFromApex,
+  showNotifyWithError,
+  parseSObjects
+} from "c/utils";
 
 export default class SlackChannelsApp extends LightningElement {
   @track state;
@@ -53,51 +57,34 @@ export default class SlackChannelsApp extends LightningElement {
       this.workspacesList = workspaces;
       this.channelsList = channels;
     } catch (error) {
-      // handleErrorInResponse(this, error);
+      handleErrorInResponse(this, error);
     }
   }
 
   async getWorkspacesFromApex(cmp) {
-      let result;
-      try {
-        let response = await getWorkspaces();
-        if (response.success) {
-          result = JSON.parse(response.data);
-          result.forEach(elem => {
-            delete elem.attributes;
-          });
-        } else if (!response.success && response.code === 1001) {
-          // console.log(response.message);
-          showNotifyWithError(cmp, response.message);
-        } else {
-          handleErrorInResponseFromApex(cmp, response);
-        }
-      } catch (error) {
-        handleErrorInResponse(cmp, error);
-      }
+    let result;
+    let response = await getWorkspaces();
+    if (response.success) {
+      result = parseSObjects(response.data);
+    } else if (!response.success && response.code === 1001) {
+      showNotifyWithError(cmp, response.message);
+    } else {
+      handleErrorInResponseFromApex(cmp, response);
+    }
     return result;
   }
 
   async getSlackChannelsFromApex(cmp) {
-      let result;
+    let result;
 
-      try {
-        let response = await getSlackChannels();
-        if (response.success) {
-          result = JSON.parse(response.data);
-          result.forEach(elem => {
-            delete elem.attributes;
-          });
-          // this.handleResponseWithComponentData(cmp, response.data);
-        } else if (!response.success && response.code === 1001) {
-          // console.log(response.message);
-          showNotifyWithError(cmp, response.message);
-        } else {
-          handleErrorInResponseFromApex(cmp, response);
-        }
-      } catch (error) {
-        handleErrorInResponse(cmp, error);
-      }
+    let response = await getSlackChannels();
+    if (response.success) {
+      result = parseSObjects(response.data);
+    } else if (!response.success && response.code === 1001) {
+      showNotifyWithError(cmp, response.message);
+    } else {
+      handleErrorInResponseFromApex(cmp, response);
+    }
     return result;
   }
 

@@ -1,8 +1,8 @@
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-import * as $Validation from './validationUtils';
+import * as $Validation from "./validationUtils";
 // redirect all
-export * from './validationUtils';
+export * from "./validationUtils";
 
 export const DEBUG_MODE = true;
 /**
@@ -12,16 +12,15 @@ export const DEBUG_MODE = true;
  * @param {*} arg2
  */
 export function showConsoleError(arg1, arg2) {
+  if (!DEBUG_MODE) return;
 
-    if (!DEBUG_MODE) return;
-
-    if (arg2) {
-        // eslint-disable-next-line no-console
-        console.error(arg1, arg2)
-    } else {
-        // eslint-disable-next-line no-console
-        console.error(arg1)
-    }
+  if (arg2) {
+    // eslint-disable-next-line no-console
+    console.error(arg1, arg2);
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(arg1);
+  }
 }
 
 /**
@@ -31,36 +30,35 @@ export function showConsoleError(arg1, arg2) {
  * @return {string[]} Error messages
  */
 export function reduceErrors(errors) {
-    errors = convertToArrayIfNotArray(errors);
+  errors = convertToArrayIfNotArray(errors);
 
-    return (
-        errors
-            // Remove null/undefined items
-            .filter(error => !!error)
-            // Extract an error message
-            .map(error => {
-                // UI API read errors
-                if (Array.isArray(error.body)) {
-                    return error.body.map(e => e.message);
-                }
-                // UI API DML, Apex and network errors
-                else if (error.body && typeof error.body.message === 'string') {
-                    return error.body.message;
-                }
-                // JS errors
-                else if (typeof error.message === 'string') {
-                    return error.message;
-                }
-                // Unknown error shape so try HTTP status text
-                return error.statusText;
-            })
-            // Flatten
-            .reduce((prev, curr) => prev.concat(curr), [])
-            // Remove empty strings
-            .filter(message => !!message)
-    );
+  return (
+    errors
+      // Remove null/undefined items
+      .filter(error => !!error)
+      // Extract an error message
+      .map(error => {
+        // UI API read errors
+        if (Array.isArray(error.body)) {
+          return error.body.map(e => e.message);
+        }
+        // UI API DML, Apex and network errors
+        else if (error.body && typeof error.body.message === "string") {
+          return error.body.message;
+        }
+        // JS errors
+        else if (typeof error.message === "string") {
+          return error.message;
+        }
+        // Unknown error shape so try HTTP status text
+        return error.statusText;
+      })
+      // Flatten
+      .reduce((prev, curr) => prev.concat(curr), [])
+      // Remove empty strings
+      .filter(message => !!message)
+  );
 }
-
 
 /**
  * @author Lambru Dmytro
@@ -69,14 +67,13 @@ export function reduceErrors(errors) {
  * @returns {array} value as array
  */
 export function convertToArrayIfNotArray(value) {
+  if ($Validation.isUndefinedOrNull(value)) {
+    value = [];
+  } else if (!Array.isArray(value)) {
+    value = [value];
+  }
 
-    if ($Validation.isUndefinedOrNull(value)) {
-        value = [];
-    } else if (!Array.isArray(value)) {
-        value = [value];
-    }
-
-    return value;
+  return value;
 }
 
 /**
@@ -87,16 +84,15 @@ export function convertToArrayIfNotArray(value) {
  * @param {boolean} [isShowToast=true]
  */
 export function handleErrorInResponse(cmp, error, isShowToast = true) {
+  if (!$Validation.isInheritedFromLightningElement(cmp)) return;
 
-    if (!$Validation.isInheritedFromLightningElement(cmp)) return;
+  if (isShowToast) {
+    showCriticalErrorToast(cmp);
+  }
 
-    if (isShowToast) {
-        showCriticalErrorToast(cmp);
-    }
+  const errorList = reduceErrors(error);
 
-    const errorList = reduceErrors(error);
-
-    showConsoleError('ERRORS:', errorList);
+  showConsoleError("ERRORS:", errorList);
 }
 
 /**
@@ -106,22 +102,25 @@ export function handleErrorInResponse(cmp, error, isShowToast = true) {
  * @param {object} response LightningResult class object
  * @param {boolean} [isShowToast=true]
  */
-export function handleErrorInResponseFromApex(cmp, response, isShowToast = true) {
+export function handleErrorInResponseFromApex(
+  cmp,
+  response,
+  isShowToast = true
+) {
+  if (!$Validation.isInheritedFromLightningElement(cmp)) return;
+  if (isShowToast) showCriticalErrorToast(cmp, response.code);
 
-    if (!$Validation.isInheritedFromLightningElement(cmp)) return;
-    if (isShowToast) showCriticalErrorToast(cmp, response.code);
+  if (!!response && response.hasOwnProperty("code") && !!response.code) {
+    showConsoleError("APEX ERROR CODE:", response.code);
+  }
 
-    if (!!response && response.hasOwnProperty('code') && !!response.code) {
-        showConsoleError('APEX ERROR CODE:', response.code);
-    }
-
-    if (!!response && response.hasOwnProperty('message') && !!response.message) {
-        showConsoleError('APEX ERROR MSG:', response.message);
-    }
+  if (!!response && response.hasOwnProperty("message") && !!response.message) {
+    showConsoleError("APEX ERROR MSG:", response.message);
+  }
 }
 
 export function handleValidationError(cmp, error) {
-    showToast(cmp, 'Validation Error!', error.message, 'error');
+  showToast(cmp, "Validation Error!", error.message, "error");
 }
 /**
  * @author Lambru Dmytro
@@ -132,18 +131,23 @@ export function handleValidationError(cmp, error) {
  * @param {string} [variant='success'] (info/success/warning/error)
  * @param {string} [mode='dismissable'] (dismissable/pester/sticky)
  */
-export function showToast(cmp, title, message, variant = 'success', mode = 'dismissable') {
+export function showToast(
+  cmp,
+  title,
+  message,
+  variant = "success",
+  mode = "dismissable"
+) {
+  if (!$Validation.isInheritedFromLightningElement(cmp)) return;
 
-    if (!$Validation.isInheritedFromLightningElement(cmp)) return;
+  const newEvent = new ShowToastEvent({
+    title,
+    message,
+    variant,
+    mode
+  });
 
-    const newEvent = new ShowToastEvent({
-        title,
-        message,
-        variant,
-        mode
-    });
-
-    cmp.dispatchEvent(newEvent);
+  cmp.dispatchEvent(newEvent);
 }
 
 /**
@@ -153,29 +157,40 @@ export function showToast(cmp, title, message, variant = 'success', mode = 'dism
  * @param {string|number} code error code
  */
 export function showCriticalErrorToast(cmp, code) {
+  if (!$Validation.isInheritedFromLightningElement(cmp)) return;
 
-    if (!$Validation.isInheritedFromLightningElement(cmp)) return;
+  const title = "System error!";
+  let message = "Please let us know about it";
+  const variant = "error";
+  const mode = "sticky";
 
-    const title = 'System error!';
-    let message = 'Please let us know about it';
-    const variant = 'error';
-    const mode = 'sticky';
+  if (!$Validation.isUndefinedOrNull(code)) {
+    message = `Please let us know about it, error code: ${code}`;
+  }
 
-    if (!$Validation.isUndefinedOrNull(code)) {
-        message = `Please let us know about it, error code: ${code}`;
-    }
-
-    showToast(cmp, title, message, variant, mode);
+  showToast(cmp, title, message, variant, mode);
 }
 
-export function showNotifyWithError(cmp, messageText){
-    if (!$Validation.isInheritedFromLightningElement(cmp)) return;
+export function showNotifyWithError(cmp, messageText) {
+  if (!$Validation.isInheritedFromLightningElement(cmp)) return;
 
-    const title = messageText;
-    let message = '';
-    const variant = 'error';
-    const mode = 'sticky';
+  const title = messageText;
+  let message = "";
+  const variant = "error";
+  const mode = "sticky";
 
-    showToast(cmp, title, message, variant, mode);
+  showToast(cmp, title, message, variant, mode);
+}
 
+export function parseSObjects(jsonString) {
+  let result = JSON.parse(jsonString);
+
+  if (Array.isArray(result)) {
+    result.forEach(elem => {
+      delete elem.attributes;
+    });
+  } else {
+    delete result.attributes;
+  }
+  return result;
 }

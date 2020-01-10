@@ -5,6 +5,11 @@ import {
   navigateToWorkspace,
   updateData
 } from "c/slackUtils";
+import {
+  handleErrorInResponse,
+  showNotifyWithError,
+  handleErrorInResponseFromApex
+} from "c/utils";
 
 export default class SlackWorkspacesList extends LightningElement(
   LightningElement
@@ -53,16 +58,19 @@ export default class SlackWorkspacesList extends LightningElement(
 
   async deleteRecord(workspace) {
     try {
-      await deleteWorkspace({ workspace});
-
-      this.workspacesList = this.workspacesList.filter(
-        workspaceEl => workspaceEl.Id !== workspace.Id
-      );
-      updateData(this);
+      let response = await deleteWorkspace({ workspace });
+      if (response.success) {
+        this.workspacesList = this.workspacesList.filter(
+          workspaceEl => workspaceEl.Id !== workspace.Id
+        );
+        updateData(this);
+      } else if (!response.success && response.code === 1001) {
+        showNotifyWithError(this, response.message);
+      } else {
+        handleErrorInResponseFromApex(this, response);
+      }
     } catch (error) {
-      console.log(error);
-      console.log(JSON.stringify(error));
-      // handleErrorInResponse(this, error);
+      handleErrorInResponse(this, error);
     }
   }
 
