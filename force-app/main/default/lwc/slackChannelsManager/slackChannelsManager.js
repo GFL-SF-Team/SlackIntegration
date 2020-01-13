@@ -3,6 +3,7 @@ import getExistingSlackChannels from "@salesforce/apex/L_SlackChannelsController
 import saveChannelsFromWorkspace from "@salesforce/apex/L_SlackChannelsController.saveChannelsFromWorkspace";
 import { navigateToChannels } from "c/slackUtils";
 import { handleErrorInResponse, handleErrorInResponseFromApex, showNotifyWithError } from "c/utils";
+import {SHOW_MESSAGE_CODE} from "c/utils";
 
 export default class SlackChannelsManager extends LightningElement {
   @api workspacesList;
@@ -70,9 +71,7 @@ export default class SlackChannelsManager extends LightningElement {
           result.forEach(elem => {
             delete elem.attributes;
           });
-          // this.handleResponseWithComponentData(cmp, response.data);
-        } else if (!response.success && response.code === 1001) {
-          // console.log('Notify With Error');
+        } else if (!response.success && response.code === SHOW_MESSAGE_CODE) {
           showNotifyWithError(cmp, response.message);
         } else {
           handleErrorInResponseFromApex(cmp, response);

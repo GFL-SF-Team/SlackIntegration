@@ -7,6 +7,8 @@
  */
 public class LightningResult {
 
+	private static final Integer SHOW_MESSAGE_CODE = 1001;
+
 	@AuraEnabled
 	/* Successful(TRUE) or not successful(FALSE) operation */
 	public Boolean success {get; set;}
@@ -33,6 +35,11 @@ public class LightningResult {
 	public void setError(String message) {
 		this.message = message;
 		this.success = FALSE;
+	}
+
+	/* For error response with displaying - set message */
+	public void setErrorWithShowing(String message) {
+		this.setError(message, SHOW_MESSAGE_CODE);
 	}
 
 	/* For error response with error code number */

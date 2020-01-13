@@ -62,8 +62,11 @@ public class L_SlackChannelsController {
 
 		try{
 			slackChannelsList = Util_SlackNotifierHelper.getWorkspaceChannelsFromSlack(workspaceToken); 
-			RESPONSE.setResult('');
+			RESPONSE.setResult(JSON.serialize(slackChannelsList));
 
+		}catch (ShowMessageException e){
+			RESPONSE.setErrorWithShowing(e.getMessage());
+			
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());
 		}

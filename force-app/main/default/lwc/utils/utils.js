@@ -5,6 +5,8 @@ import * as $Validation from "./validationUtils";
 export * from "./validationUtils";
 
 export const DEBUG_MODE = true;
+
+export const SHOW_MESSAGE_CODE = 1001;
 /**
  * @description to display error in console
  * @author Dmytro Lambru

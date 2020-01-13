@@ -46,11 +46,11 @@ public class Util_SlackNotifierHelper {
 		paramsMap.put('token', token);
 		Workspace workspaceParsed;
 
-		try {
-			String resultJSON = makeHttpRequest(url, paramsMap);
-			workspaceParsed = (Workspace)JSON.deserialize(resultJSON, Workspace.class);
-		} catch (Exception e) {
-			System.debug(e.getMessage());
+		String resultJSON = makeHttpRequest(url, paramsMap);
+		workspaceParsed = (Workspace)JSON.deserialize(resultJSON, Workspace.class);
+
+		if (workspaceParsed.ok == 'false'){
+			throw new ShowMessageException('Unable to connect to the workspace!');
 		}
 
 		SlackChannel__c[] channels = new SlackChannel__c[]{};
@@ -163,7 +163,8 @@ public class Util_SlackNotifierHelper {
 	 * @description: Data class for parsing slack workspace information from HTTP request
 	 */
 	private class Workspace{
-
+		//confirmation value of the request to Slack API
+		public String ok;
 		public String token;
 		public SlackChannel[] channels;
 	}
