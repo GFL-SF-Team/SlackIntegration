@@ -1,15 +1,7 @@
 import { LightningElement, api } from "lwc";
 import deleteWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.deleteWorkspace";
-import {
-  navigateToChannels,
-  navigateToWorkspace,
-  updateData
-} from "c/slackUtils";
-import {
-  handleErrorInResponse,
-  showNotifyWithError,
-  handleErrorInResponseFromApex
-} from "c/utils";
+import { navigateToChannels, navigateToWorkspace, updateData } from "c/slackUtils";
+import { handleResponse, handleErrors } from "c/utils";
 
 export default class SlackWorkspacesList extends LightningElement(
   LightningElement
@@ -59,18 +51,13 @@ export default class SlackWorkspacesList extends LightningElement(
   async deleteRecord(workspace) {
     try {
       let response = await deleteWorkspace({ workspace });
-      if (response.success) {
-        this.workspacesList = this.workspacesList.filter(
-          workspaceEl => workspaceEl.Id !== workspace.Id
-        );
-        updateData(this);
-      } else if (!response.success && response.code === 1001) {
-        showNotifyWithError(this, response.message);
-      } else {
-        handleErrorInResponseFromApex(this, response);
-      }
+      await handleResponse(this, response);
+      this.workspacesList = this.workspacesList.filter(
+        workspaceEl => workspaceEl.Id !== workspace.Id
+      );
+      updateData(this);
     } catch (error) {
-      handleErrorInResponse(this, error);
+      handleErrors(this, error);
     }
   }
 

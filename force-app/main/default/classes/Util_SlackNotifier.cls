@@ -55,7 +55,11 @@ global class Util_SlackNotifier {
 	@future(callout = true)
 	public static void sendMessageCallout(String plainMessage, String richMessage) {
 
-		broadcastMessageToWorkspace(plainMessage, richMessage);
+		try{
+			broadcastMessageToWorkspace(plainMessage, richMessage);
+		}catch(Exception e){
+			System.debug(e.getMessage());
+		}
 
 	}
 

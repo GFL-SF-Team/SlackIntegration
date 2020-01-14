@@ -121,9 +121,6 @@ export function handleErrorInResponseFromApex(
   }
 }
 
-export function handleValidationError(cmp, error) {
-  showToast(cmp, "Validation Error!", error.message, "error");
-}
 /**
  * @author Lambru Dmytro
  * @description Toast notification that pops up to alert users of a success, info, error, or warning.
@@ -195,4 +192,43 @@ export function parseSObjects(jsonString) {
     delete result.attributes;
   }
   return result;
+}
+
+export async function getSObjectsFromApex(
+  cmp,
+  apexFunction,
+  apexFunctionParams = {}
+) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await apexFunction(apexFunctionParams);
+      await handleResponse(cmp, response);
+      resolve(parseSObjects(response.data));
+    } catch (errors) {
+      reject(errors);
+    }
+  });
+}
+
+export async function handleResponse(cmp, response) {
+  return new Promise(async (resolve, reject) => {
+      if (response.success) {
+        resolve();
+      } else {
+        reject({ response });
+      }
+  });
+}
+
+export function handleErrors(cmp, errors) {
+  if (errors.hasOwnProperty("response")) {
+    let response = errors.response;
+    if (!response.success && response.code === SHOW_MESSAGE_CODE) {
+      showNotifyWithError(cmp, response.message);
+    } else {
+      handleErrorInResponseFromApex(cmp, response);
+    }
+  } else {
+    handleErrorInResponse(cmp, errors);
+  }
 }

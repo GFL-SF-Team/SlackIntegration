@@ -39,6 +39,10 @@ public class L_SlackWorkspacesListController {
 
 			Util_SlackSettingsData.saveWorkspace(workspace);
 			RESPONSE.setResult(JSON.serialize(''));
+			
+		}catch (ShowMessageException e){
+			RESPONSE.setErrorWithShowing(e.getMessage());
+			
 		} catch(Exception e) {
 			RESPONSE.setError(e.getMessage());
 		}

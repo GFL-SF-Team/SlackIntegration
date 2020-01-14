@@ -103,14 +103,10 @@ public class Util_SlackNotifierHelper {
 		paramsMap.put('token', token);
 		SlackChannel[] channelsParsed;
 
-		try {
-			String resultJSON = makeHttpRequest(url, paramsMap);
-			Map<String, Object> parsedMap = (Map<String, Object>)JSON.deserializeUntyped(resultJSON);
-			String channelsJSON = JSON.serialize((List<Object>)parsedMap.get('members'));
-			channelsParsed = (SlackChannel[])JSON.deserialize(channelsJSON, List<SlackChannel>.class);
-		} catch (Exception e) {
-			System.debug(e.getMessage());
-		}
+		String resultJSON = makeHttpRequest(url, paramsMap);
+		Map<String, Object> parsedMap = (Map<String, Object>)JSON.deserializeUntyped(resultJSON);
+		String channelsJSON = JSON.serialize((List<Object>)parsedMap.get('members'));
+		channelsParsed = (SlackChannel[])JSON.deserialize(channelsJSON, List<SlackChannel>.class);
 
 		SlackChannel__c[] channels = new SlackChannel__c[]{};
 

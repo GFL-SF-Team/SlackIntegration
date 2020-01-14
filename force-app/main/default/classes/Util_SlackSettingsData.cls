@@ -11,7 +11,7 @@ public class Util_SlackSettingsData {
 	 * @description: Retrieves all workspaces from Custom Settings
 	 * @test: L_SlackWorkspacesListControllerTest.testGetWorkspaces()
 	 */
-	public static Workspace__c[] getWorkspacesFromSettings() {
+	public static Workspace__c [] getWorkspacesFromSettings() {
 
 		return [SELECT Id, Name, Token__c FROM Workspace__c LIMIT 1000];
 	}
@@ -24,13 +24,16 @@ public class Util_SlackSettingsData {
 	 */
 	public static void saveWorkspace(Workspace__c workspace) {
 
-		try {
-
-			upsert workspace;
-
-		} catch (DmlException e) {
-			System.debug(e.getMessage());
+		if(workspace.Name == '') {
+			throw new ShowMessageException('Name is empty!');
 		}
+
+		if(workspace.Token__c == '') {
+			throw new ShowMessageException('Token is empty!');
+		}
+
+		upsert workspace;
+
 	}
 
 	/*
@@ -42,16 +45,11 @@ public class Util_SlackSettingsData {
 	public static void deleteWorkspace(Workspace__c workspace) {
 
 		SlackChannel__c[] channelsFromWorkspace =
-				Util_SlackSettingsData.getWorkspaceChannelsFromSettings(workspace.Id);
+		Util_SlackSettingsData.getWorkspaceChannelsFromSettings(workspace.Id);
 
-		try {
+		delete channelsFromWorkspace;
+		delete workspace;
 
-			delete channelsFromWorkspace;
-			delete workspace;
-
-		} catch (DmlException e) {
-			System.debug(e.getMessage());
-		}
 	}
 
 	/*
@@ -60,20 +58,16 @@ public class Util_SlackSettingsData {
 	 * @param: workspaceId - an Id of a workspace record from Custom Settings
 	 * @test: L_SlackWorkspaceListControllerTest.testDeleteWorkspace()
 	 */
-	private static SlackChannel__c[] getWorkspaceChannelsFromSettings(String workspaceId) {
+	private static SlackChannel__c [] getWorkspaceChannelsFromSettings(String workspaceId) {
 		String queryString = 'SELECT Id, Name, NameChannel__c, IdChannel__c, WorkspaceId__c FROM SlackChannel__c';
 
-		if (workspaceId != ''){
-			queryString += ' WHERE WorkspaceId__c=\''+String.escapeSingleQuotes(workspaceId)+'\'';
+		if(workspaceId != '') {
+			queryString += ' WHERE WorkspaceId__c=\'' + String.escapeSingleQuotes(workspaceId) + '\'';
 		}
 		queryString += ' LIMIT 1000';
-		SlackChannel__c[] result = new SlackChannel__c[]{};
+		SlackChannel__c[] result = new SlackChannel__c [] {};
 
-		try{
-			result = Database.query(queryString);
-		}catch (QueryException e){
-			System.debug(e.getMessage());
-		}
+		result = Database.query(queryString);
 
 		return result;
 	}
@@ -84,7 +78,7 @@ public class Util_SlackSettingsData {
 	 * @param: workspaceId - an Id of a workspace record from Custom Settings
 	 * @test: L_SlackChannelsControllerTest.testGetSlackChannels()
 	 */
-	public static SlackChannel__c[] getChannelsFromSettings() {
+	public static SlackChannel__c [] getChannelsFromSettings() {
 
 		return getWorkspaceChannelsFromSettings('');
 	}
@@ -96,24 +90,19 @@ public class Util_SlackSettingsData {
 	 * @param: workspaceId - an Id of a workspace record from Custom Settings
 	 * @test: L_SlackChannelsControllerTest.testSaveChannelsFromWorkspace()
 	 */
-	public static void saveChannelsFromWorkspace(SlackChannel__c[] selectedChannels, String workspaceId) {
+	public static void saveChannelsFromWorkspace(SlackChannel__c [] selectedChannels, String workspaceId) {
 
 		SlackChannel__c[] workspaceChannelsFromSettings =
-				Util_SlackSettingsData.getWorkspaceChannelsFromSettings(workspaceId);
-				
-		for (SlackChannel__c channel : selectedChannels){
+		Util_SlackSettingsData.getWorkspaceChannelsFromSettings(workspaceId);
+
+		for (SlackChannel__c channel :selectedChannels) {
 			channel.Name = channel.IdChannel__c;
 			channel.WorkspaceId__c = workspaceId;
-		}
+		}   
 
-		try {
+		delete workspaceChannelsFromSettings;
+		insert selectedChannels;
 
-			delete workspaceChannelsFromSettings;
-			insert selectedChannels;
-
-		} catch (DmlException e) {
-			System.debug(e.getMessage());
-		}
 	}
 
 	/*
@@ -124,13 +113,8 @@ public class Util_SlackSettingsData {
 	 */
 	public static void deleteChannel(SlackChannel__c channel) {
 
-		try {
+		delete channel;
 
-			delete channel;
-
-		} catch (DmlException e) {
-			System.debug(e.getMessage());
-		}
 	}
 
 

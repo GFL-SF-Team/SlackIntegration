@@ -6,9 +6,9 @@ import {
   updateData
 } from "c/slackUtils";
 import {
-  handleErrorInResponse,
   showNotifyWithError,
-  handleErrorInResponseFromApex
+  handleResponse,
+  handleErrors
 } from "c/utils";
 
 export default class SlackChannels extends LightningElement {
@@ -51,18 +51,13 @@ export default class SlackChannels extends LightningElement {
   async deleteRecord(channel) {
     try {
       let response = await deleteChannel({ channel });
-      if (response.success) {
-        this.channelsList = this.channelsList.filter(
-          channelEl => channelEl.Id !== channel.Id
-        );
-        updateData(this);
-      } else if (!response.success && response.code === 1001) {
-        showNotifyWithError(this, response.message);
-      } else {
-        handleErrorInResponseFromApex(this, response);
-      }
+      await handleResponse(this, response);
+      this.channelsList = this.channelsList.filter(
+        channelEl => channelEl.Id !== channel.Id
+      );
+      updateData(this);
     } catch (error) {
-      handleErrorInResponse(this, error);
+      handleErrors(this, error);
     }
   }
 

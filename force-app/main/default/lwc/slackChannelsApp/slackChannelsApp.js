@@ -1,18 +1,14 @@
 import { LightningElement, track } from "lwc";
 import getSlackChannels from "@salesforce/apex/L_SlackChannelsController.getSlackChannels";
 import getWorkspaces from "@salesforce/apex/L_SlackChannelsController.getWorkspaces";
+import {getSObjectsFromApex, handleErrors} from "c/utils";
+
 import {
   CHANNELS_STATE,
   CHANNELS_MANAGER_STATE,
   WORKSPACES_STATE,
   WORKSPACE_STATE
 } from "c/slackUtils";
-import {
-  handleErrorInResponse,
-  handleErrorInResponseFromApex,
-  showNotifyWithError,
-  parseSObjects
-} from "c/utils";
 
 export default class SlackChannelsApp extends LightningElement {
   @track state;
@@ -39,8 +35,8 @@ export default class SlackChannelsApp extends LightningElement {
 
   async retrieveChannels() {
     try {
-      let workspaces = await this.getWorkspacesFromApex(this);
-      let channels = await this.getSlackChannelsFromApex(this);
+      let workspaces = await getSObjectsFromApex(this, getWorkspaces);
+      let channels = await getSObjectsFromApex(this, getSlackChannels);
       let workspacesMap = {};
 
       for (let workspace of workspaces) {
@@ -57,35 +53,8 @@ export default class SlackChannelsApp extends LightningElement {
       this.workspacesList = workspaces;
       this.channelsList = channels;
     } catch (error) {
-      handleErrorInResponse(this, error);
+      handleErrors(this, error);
     }
-  }
-
-  async getWorkspacesFromApex(cmp) {
-    let result;
-    let response = await getWorkspaces();
-    if (response.success) {
-      result = parseSObjects(response.data);
-    } else if (!response.success && response.code === 1001) {
-      showNotifyWithError(cmp, response.message);
-    } else {
-      handleErrorInResponseFromApex(cmp, response);
-    }
-    return result;
-  }
-
-  async getSlackChannelsFromApex(cmp) {
-    let result;
-
-    let response = await getSlackChannels();
-    if (response.success) {
-      result = parseSObjects(response.data);
-    } else if (!response.success && response.code === 1001) {
-      showNotifyWithError(cmp, response.message);
-    } else {
-      handleErrorInResponseFromApex(cmp, response);
-    }
-    return result;
   }
 
   handleNavigate(event) {
