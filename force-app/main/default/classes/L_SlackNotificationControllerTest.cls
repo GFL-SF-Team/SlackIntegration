@@ -10,13 +10,13 @@ private class L_SlackNotificationControllerTest {
 	static void insertCustomSettings() {
 
 		Workspace__c workspace = new Workspace__c(Name = 'my name',
-				Token__c = 'xoxp-705140850724-707466024983-694209657490-a9f2e6c503f81df23a699ebf46b73492');
+				Token__c = 'xoxp-012345678901-012345678901-012345678901-testexampleoftoken12345678901234');
 		insert workspace;
 		SlackChannel__c[] channelsCustomSettings = new SlackChannel__c[]{};
-		channelsCustomSettings.add(new SlackChannel__c(Name = 'notifications', IdChannel__c = 'CLK7XH57T',
+		channelsCustomSettings.add(new SlackChannel__c(Name = 'notifications', IdChannel__c = 'ID_CHAN01',
 				WorkspaceId__c = workspace.Id));
 		channelsCustomSettings.add(
-				new SlackChannel__c(Name = 'random', IdChannel__c = 'WRONG_ID', WorkspaceId__c = workspace.Id));
+				new SlackChannel__c(Name = 'random', IdChannel__c = 'ID_CHAN02', WorkspaceId__c = workspace.Id));
 		insert channelsCustomSettings;
 	}
 
