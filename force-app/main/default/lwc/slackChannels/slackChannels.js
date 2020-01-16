@@ -26,8 +26,10 @@ export default class SlackChannels extends LightningElement {
   @api workspacesList;
 
   manageChannels() {
+
     if (this.workspacesList.length > 0) {
       navigateToChannelsManager(this);
+
     } else {
       showNotifyWithError(this, "Add a workspace first!");
     }
@@ -42,6 +44,7 @@ export default class SlackChannels extends LightningElement {
     let slackChannel = event.detail.row;
 
     switch (action.name) {
+
       case "delete":
         this.deleteRecord(slackChannel);
         break;
@@ -49,13 +52,17 @@ export default class SlackChannels extends LightningElement {
   }
 
   async deleteRecord(channel) {
+
     try {
       let response = await deleteChannel({ channel });
       await handleResponse(this, response);
+
       this.channelsList = this.channelsList.filter(
         channelEl => channelEl.Id !== channel.Id
       );
+
       updateData(this);
+      
     } catch (error) {
       handleErrors(this, error);
     }

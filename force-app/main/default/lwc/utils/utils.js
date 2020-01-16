@@ -185,25 +185,28 @@ export function parseSObjects(jsonString) {
   let result = JSON.parse(jsonString);
 
   if (Array.isArray(result)) {
+
     result.forEach(elem => {
       delete elem.attributes;
     });
+
   } else {
     delete result.attributes;
   }
+
   return result;
 }
 
-export async function getSObjectsFromApex(
-  cmp,
-  apexFunction,
-  apexFunctionParams = {}
-) {
+export async function getSObjectsFromApex(cmp, apexFunction, apexFunctionParams = {}) {
+
   return new Promise(async (resolve, reject) => {
+
     try {
       let response = await apexFunction(apexFunctionParams);
+
       await handleResponse(cmp, response);
       resolve(parseSObjects(response.data));
+
     } catch (errors) {
       reject(errors);
     }
@@ -211,9 +214,12 @@ export async function getSObjectsFromApex(
 }
 
 export async function handleResponse(cmp, response) {
+
   return new Promise(async (resolve, reject) => {
+
       if (response.success) {
         resolve();
+
       } else {
         reject({ response });
       }
@@ -221,13 +227,18 @@ export async function handleResponse(cmp, response) {
 }
 
 export function handleErrors(cmp, errors) {
+
   if (errors.hasOwnProperty("response")) {
+
     let response = errors.response;
+
     if (!response.success && response.code === SHOW_MESSAGE_CODE) {
       showNotifyWithError(cmp, response.message);
+
     } else {
       handleErrorInResponseFromApex(cmp, response);
     }
+
   } else {
     handleErrorInResponse(cmp, errors);
   }

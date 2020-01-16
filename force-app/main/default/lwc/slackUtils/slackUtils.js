@@ -45,6 +45,7 @@ export function updateData(cmp) {
 }
 
 export function navigateToState(cmp, state, update, param = {}) {
+  
   const navigateEvent = new CustomEvent("navigate", {
     detail: { state, update, ...param }
   });

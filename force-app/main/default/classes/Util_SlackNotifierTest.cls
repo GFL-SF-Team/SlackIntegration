@@ -28,6 +28,7 @@ private class Util_SlackNotifierTest {
 		try {
 			Account a = new Account(Name = 'my name');
 			update a;
+
 		} catch (Exception e) {
 			D_SlackMessage.ApexMessage message = new D_SlackMessage.ApexMessage();
 			message.setTypeEvent(D_SlackMessage.EventType.INFO);
@@ -53,6 +54,7 @@ private class Util_SlackNotifierTest {
 		try {
 			String s;
 			s.length();
+			
 		} catch (Exception e) {
 			D_SlackMessage.ApexMessage message = new D_SlackMessage.ApexMessage();
 			message.setThrownException(e);

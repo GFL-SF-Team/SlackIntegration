@@ -23,6 +23,7 @@ export default class SlackChannelsApp extends LightningElement {
     window.history.replaceState(CHANNELS_STATE, null, "");
 
     window.onpopstate = event => {
+      
       if (event.state) {
         this.state = event.state;
       }
@@ -44,6 +45,7 @@ export default class SlackChannelsApp extends LightningElement {
       }
 
       channels = channels.map(channel => {
+
         return {
           ...channel,
           workspaceName: workspacesMap[channel.WorkspaceId__c].Name
@@ -52,12 +54,14 @@ export default class SlackChannelsApp extends LightningElement {
 
       this.workspacesList = workspaces;
       this.channelsList = channels;
+
     } catch (error) {
       handleErrors(this, error);
     }
   }
 
   handleNavigate(event) {
+
     if (event.detail.update) {
       this.retrieveChannels();
     }

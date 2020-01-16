@@ -57,6 +57,7 @@ global class Util_SlackNotifier {
 
 		try{
 			broadcastMessageToWorkspace(plainMessage, richMessage);
+
 		}catch(Exception e){
 			System.debug(e.getMessage());
 		}

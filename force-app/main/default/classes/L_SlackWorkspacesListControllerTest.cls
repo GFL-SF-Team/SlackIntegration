@@ -13,13 +13,17 @@ private class L_SlackWorkspacesListControllerTest {
 				Token__c = 'xoxp-012345678901-012345678901-012345678901-testexampleoftoken12345678901234');
 		Workspace__c workspace2 = new Workspace__c(Name = 'my workspace 2',
 				Token__c = 'xoxp-987654321098-012345678901-012345678901-anotherexampleoftoken45678901234');
+
 		insert new Workspace__c[]{workspace1, workspace2};
 	}
 
 
 	@IsTest static void testGetWorkspaces() {
 
+		Test.startTest();
 		LightningResult response = L_SlackWorkspacesListController.getWorkspaces();
+		Test.stopTest();
+
 		Workspace__c[] workspaces = (List<Workspace__c>)JSON.deserialize(response.data, List<Workspace__c>.class);
 
 		System.assert(response.success);
@@ -31,8 +35,13 @@ private class L_SlackWorkspacesListControllerTest {
 
 		Workspace__c workspace3 = new Workspace__c(Name = 'my workspace 3',
 				Token__c = 'xoxp-567890123456-012345678901-012345678901-thethirdtokenexample123456789012');
+
+		Test.startTest();
 		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(workspace3);
+		Test.stopTest();
+		
 		Workspace__c[] workspaces = [SELECT Id FROM Workspace__c LIMIT 1000];
+
 		System.assert(response.success);
 		System.assertEquals(3, workspaces.size());
 	}
@@ -51,7 +60,8 @@ private class L_SlackWorkspacesListControllerTest {
 
 	@IsTest static void testSaveInvalidWorkspace2() {
 
-		Workspace__c workspace3;
+		Workspace__c workspace3 = null;
+
 		Test.startTest();
 		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(workspace3);
 		Test.stopTest();
@@ -68,6 +78,7 @@ private class L_SlackWorkspacesListControllerTest {
 		Test.stopTest();
 
 		Workspace__c[] workspaces = [SELECT Id FROM Workspace__c LIMIT 1000];
+
 		System.assert(response.success);
 		System.assertEquals(1, workspaces.size());
 	}
@@ -75,6 +86,7 @@ private class L_SlackWorkspacesListControllerTest {
 	@IsTest static void testDeleteInvalidWorkspace() {
 
 		Workspace__c workspaceToDelete = new Workspace__c(Name='Some name', Token__c='some token');
+
 		Test.startTest();
 		LightningResult response = L_SlackWorkspacesListController.deleteWorkspace(workspaceToDelete);
 		Test.stopTest();

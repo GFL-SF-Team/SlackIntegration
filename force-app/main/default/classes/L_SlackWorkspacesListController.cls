@@ -15,10 +15,13 @@ public class L_SlackWorkspacesListController {
 	 */
 	@AuraEnabled
 	public static LightningResult getWorkspaces() {
+
 		Workspace__c[] workspacesList;
+
 		try{
 			workspacesList = Util_SlackSettingsData.getWorkspacesFromSettings();
 			RESPONSE.setResult(JSON.serialize(workspacesList));
+
 		} catch(Exception e) {
 			RESPONSE.setError(e.getMessage());
 		}
@@ -58,9 +61,11 @@ public class L_SlackWorkspacesListController {
 	 */
 	@AuraEnabled
 	public static LightningResult deleteWorkspace(Workspace__c workspace) {
+
 		try{
 			Util_SlackSettingsData.deleteWorkspace(workspace);
 			RESPONSE.setResult(JSON.serialize(''));
+			
 		} catch(Exception e) {
 			RESPONSE.setError(e.getMessage());
 		}

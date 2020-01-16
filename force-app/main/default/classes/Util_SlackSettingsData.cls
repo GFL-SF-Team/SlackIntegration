@@ -59,6 +59,7 @@ public class Util_SlackSettingsData {
 	 * @test: L_SlackWorkspaceListControllerTest.testDeleteWorkspace()
 	 */
 	private static SlackChannel__c [] getWorkspaceChannelsFromSettings(String workspaceId) {
+		
 		String queryString = 'SELECT Id, Name, NameChannel__c, IdChannel__c, WorkspaceId__c FROM SlackChannel__c';
 
 		if(workspaceId != '') {

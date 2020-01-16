@@ -20,6 +20,7 @@ export default class SlackWorkspace extends LightningElement {
       let response = await saveWorkspace({ workspace: this.workspace });
       await handleResponse(this, response);
       navigateToWorkspaces(this, true);
+
     } catch (error) {
       handleErrors(this, error);
     }

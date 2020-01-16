@@ -35,9 +35,11 @@ export default class SlackWorkspacesList extends LightningElement(
     let workspace = event.detail.row;
 
     switch (action.name) {
+
       case "edit":
         this.editWorkspace(workspace);
         break;
+        
       case "delete":
         this.deleteRecord(workspace);
         break;
@@ -49,13 +51,17 @@ export default class SlackWorkspacesList extends LightningElement(
   }
 
   async deleteRecord(workspace) {
+
     try {
       let response = await deleteWorkspace({ workspace });
+
       await handleResponse(this, response);
+
       this.workspacesList = this.workspacesList.filter(
         workspaceEl => workspaceEl.Id !== workspace.Id
       );
       updateData(this);
+
     } catch (error) {
       handleErrors(this, error);
     }

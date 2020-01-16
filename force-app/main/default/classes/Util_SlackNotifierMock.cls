@@ -17,6 +17,7 @@ global class Util_SlackNotifierMock implements HttpCalloutMock{
 		if (token.length() < 10){
 			body = '{"ok" : false}';
 		}
+
 		else if (endpoint == 'https://slack.com/api/conversations.list') {
 			body = '{"ok":true,"channels":[' +
 					'{"id":"ID_CHAN01","name":"notifications","is_channel":true,"is_group":false,"is_im":false,' +
@@ -50,25 +51,31 @@ global class Util_SlackNotifierMock implements HttpCalloutMock{
 			body = '{"ok":true,"channel":"ID_CHAN01","ts":"1565355527.000200",' +
 					'"message":{"type":"message","subtype":"bot_message","text":"My test message","ts":"1565355527.000200",' +
 					'"username":"Test User","bot_id":"ID_USER03"}}';
+
 		}else{
 			body = '{"ok" : false}';
 		}
 
 		response.setBody(body);
 		response.setStatusCode(200);
+
 		return response;
 	}
 
 	public String getToken(String requestBody){
+		
 		String[] params = requestBody.split('&');
 		String token = '';
+
 		for (String param : params){
 			String[] paramParsed = param.split('=');
+
 			if ((paramParsed[0]=='token') && (paramParsed.size()>1)){
 				token = paramParsed[1];
 				break;
 			}
 		}
+
 		return token;
 	}
 

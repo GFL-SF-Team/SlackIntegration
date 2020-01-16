@@ -25,7 +25,10 @@ private class L_SlackChannelsControllerTest {
 
 	@IsTest static void testGetSlackChannels() {
 
+		Test.startTest();
 		LightningResult response = L_SlackChannelsController.getSlackChannels();
+		Test.stopTest();
+
 		SlackChannel__c[] channels = (List<SlackChannel__c>) JSON.deserialize(response.data, List<SlackChannel__c>.class);
 
 		System.assert(response.success);
@@ -35,7 +38,10 @@ private class L_SlackChannelsControllerTest {
 
 	@IsTest static void testGetWorkspaces() {
 
+		Test.startTest();
 		LightningResult response = L_SlackChannelsController.getWorkspaces();
+		Test.stopTest();
+
 		Workspace__c[] workspaces = (List<Workspace__c>) JSON.deserialize(response.data, List<Workspace__c>.class);
 
 		System.assert(response.success);
@@ -53,6 +59,7 @@ private class L_SlackChannelsControllerTest {
 		Test.startTest();
 		LightningResult response = L_SlackChannelsController.getExistingSlackChannels(workspaceToken);
 		Test.stopTest();
+
 		SlackChannel__c[] channels = (List<SlackChannel__c>) JSON.deserialize(response.data, List<SlackChannel__c>.class);
 
 		System.assert(response.success);
@@ -93,6 +100,7 @@ private class L_SlackChannelsControllerTest {
 		Test.stopTest();
 
 		SlackChannel__c[] channelsListAfterInsert = [SELECT Id FROM SlackChannel__c LIMIT 1000];
+
 		System.assert(response.success);
 		System.assertEquals(3, channelsListAfterInsert.size());
 
@@ -125,6 +133,7 @@ private class L_SlackChannelsControllerTest {
 		Test.stopTest();
 
 		SlackChannel__c[] channelsListAfterInsert = [SELECT Id FROM SlackChannel__c LIMIT 1000];
+
 		System.assert(response.success);
 		System.assertEquals(1, channelsListAfterInsert.size());
 	}
@@ -138,6 +147,7 @@ private class L_SlackChannelsControllerTest {
 		Test.stopTest();
 
 		SlackChannel__c[] channelsListAfterInsert = [SELECT Id FROM SlackChannel__c LIMIT 1000];
+
 		System.assert(!response.success);
 	}
 }

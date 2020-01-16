@@ -13,6 +13,7 @@ export default class SlackChannelsManager extends LightningElement {
   @track selectedWorkspaceValue;
 
   connectedCallback() {
+
     this.workspacesList = this.workspacesList.map(workspace => {
       return { label: workspace.Name, value: workspace.Token__c, ...workspace };
     });
@@ -36,6 +37,7 @@ export default class SlackChannelsManager extends LightningElement {
       let workspaceId = selectedWorkspace.Id;
 
       this.channelsFromSlack = this.channelsFromSlack.map(channel => {
+
         return {
           label: channel.NameChannel__c,
           value: channel.IdChannel__c,
@@ -43,6 +45,7 @@ export default class SlackChannelsManager extends LightningElement {
           workspaceName: selectedWorkspace.Name,
           ...channel
         };
+
       });
 
       let workspaceChannelsIds = this.channelsList
@@ -67,6 +70,7 @@ export default class SlackChannelsManager extends LightningElement {
   }
 
   async save() {
+
     let selectedWorkspace = this.workspacesList.filter(
       workspace => workspace.Token__c === this.selectedWorkspaceValue
     )[0];
@@ -79,8 +83,10 @@ export default class SlackChannelsManager extends LightningElement {
 
     try {
       let response = await saveChannelsFromWorkspace({ selectedChannels, workspaceId });
+
       handleResponse(this, response);
       navigateToChannels(this, true);
+
     } catch (error) {
       handleErrors(this, error);
     }
@@ -96,6 +102,7 @@ export default class SlackChannelsManager extends LightningElement {
     let selectedWorkspace = this.workspacesList.filter(
       workspace => workspace.Token__c === event.detail.value
     )[0];
+    
     this.getWorkspaceChannels(selectedWorkspace);
   }
 }
