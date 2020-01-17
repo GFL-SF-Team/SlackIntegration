@@ -116,7 +116,6 @@ Go to https://api.slack.com -> Your apps
 ```
 
 - Use `sendNotificationSlack` method of this component.
-
 ```javascript
 	utils.sendNotificationSlack(priority, type, textMessage);
 ```
