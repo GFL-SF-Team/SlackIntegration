@@ -76,22 +76,33 @@ Go to https://api.slack.com -> Your apps
 
 ### In Lightning
 
-- Place c:SlackNotification component somewhere in your app.
+#### LWC
 
-```html
-		<c:SlackNotification/>
-```
-
-- Include a static resource CommonUtils.js in your component:
-
-```html
-		<ltng:require scripts="{!$Resource.CommonUtils}"/>
-```
-
-- Send an event using utility function:
+- import `sendNotificationSlack` method from `slackUtils` component:
 
 ```javascript
-		$CommonUtils.sendSlackNotification(priority, type, textMessage);
+		import sendNotificationSlack from "c/slackUtils";
+```
+
+- invoke `sendNotificationSlack` method:
+
+```javascript
+		sendNotificationSlack(priority, type, textMessage);
+```
+
+#### Aura
+
+- Place `c:slackUtils` component somewhere in your component.
+
+```html
+		<c:slackUtils aura:id="slackUtils"/>
+```
+
+- Use `sendNotificationSlack` method of this component.
+
+```javascript
+		let utils= cmp.find('slackUtils');
+		utils.sendNotificationSlack(priority, type, textMessage);
 ```
 
 
