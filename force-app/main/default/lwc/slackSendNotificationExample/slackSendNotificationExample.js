@@ -1,25 +1,23 @@
 import { LightningElement, track } from "lwc";
-import { sendNotificationSlack } from "c/slackUtils";
-import {PRIORITY_HIGH, PRIORITY_MEDIUM, PRIORITY_LOW} from "c/slackUtils";
-import {TYPE_ERROR, TYPE_WARNING, TYPE_INFO} from "c/slackUtils";
+import {slackNotificationPriorities, slackNotificationTypes, sendNotificationSlack} from "c/slackUtils";
 
 export default class SlackSendNotificationExample extends LightningElement {
   
   priorityOptions = [
-    { label: "High", value: PRIORITY_HIGH },
-    { label: "Medium", value: PRIORITY_MEDIUM },
-    { label: "Low", value: PRIORITY_LOW }
+    { label: "High", value: slackNotificationPriorities.HIGH },
+    { label: "Medium", value: slackNotificationPriorities.MEDIUM },
+    { label: "Low", value: slackNotificationPriorities.LOW }
   ];
 
-  @track priority = PRIORITY_MEDIUM;
+  @track priority = slackNotificationPriorities.MEDIUM;
 
   typesOptions = [
-    { label: "Error", value: TYPE_ERROR },
-    { label: "Warning", value: TYPE_WARNING },
-    { label: "Info", value: TYPE_INFO }
+    { label: "Error", value: slackNotificationTypes.ERROR },
+    { label: "Warning", value: slackNotificationTypes.WARNING },
+    { label: "Info", value: slackNotificationTypes.INFO }
   ];
 
-  @track type = TYPE_WARNING;
+  @track type = slackNotificationTypes.WARNING;
   
   @track textMessage = "A message from Lightning...";
 

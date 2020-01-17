@@ -78,13 +78,21 @@ Go to https://api.slack.com -> Your apps
 
 #### LWC
 
-- import `sendNotificationSlack` method from `slackUtils` component:
+- import `sendNotificationSlack` method, `slackNotificationPriorities` and `slackNotificationTypes` objects from `slackUtils` component:
 
 ```javascript
-		import sendNotificationSlack from "c/slackUtils";
+		import { sendNotificationSlack, slackNotificationPriorities, slackNotificationTypes } from "c/slackUtils";
 ```
 
-- invoke `sendNotificationSlack` method:
+- get priority and type values from `slackNotificationPriorities` and `slackNotificationTypes` objects. Set a notification message:
+
+```javascript
+		let priority = slackNotificationPriorities.MEDIUM;
+		let type = slackNotificationTypes.WARNING;
+		let textMessage = 'Some message to Slack';
+```
+
+- invoke `sendNotificationSlack` method with given parameters:
 
 ```javascript
 		sendNotificationSlack(priority, type, textMessage);
@@ -98,10 +106,18 @@ Go to https://api.slack.com -> Your apps
 		<c:slackUtils aura:id="slackUtils"/>
 ```
 
-- Use `sendNotificationSlack` method of this component.
+- get priority and type values from `slackNotificationPriorities` and `slackNotificationTypes` objects. Set a notification message:
 
 ```javascript
 		let utils= cmp.find('slackUtils');
+		let priority = utils.slackNotificationPriorities.MEDIUM;
+		let type = utils.slackNotificationTypes.WARNING;
+		let textMessage = 'Some message to Slack';
+```
+
+- Use `sendNotificationSlack` method of this component.
+
+```javascript
 		utils.sendNotificationSlack(priority, type, textMessage);
 ```
 

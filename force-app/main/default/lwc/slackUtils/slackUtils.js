@@ -1,12 +1,7 @@
 import sendSlackNotification from "@salesforce/apex/L_SlackNotificationController.sendSlackNotification";
 
-export const PRIORITY_HIGH = "HIGH";
-export const PRIORITY_MEDIUM = "MEDIUM";
-export const PRIORITY_LOW = "LOW";
-
-export const TYPE_ERROR = "ERROR";
-export const TYPE_WARNING = "WARNING";
-export const TYPE_INFO = "INFO";
+export const slackNotificationPriorities = {HIGH: 'HIGH', MEDIUM: 'MEDIUM', LOW: 'LOW'}; 
+export const slackNotificationTypes = {ERROR:'ERROR', WARNING:'WARNING', INFO:'INFO'}; 
 
 export const CHANNELS_STATE = "channels";
 export const CHANNELS_MANAGER_STATE = "channelManager";
