@@ -23,6 +23,18 @@ export default class SlackSendNotificationExample extends LightningElement {
   
   @track textMessage = "A message from Lightning...";
 
+  handleChangePriority(event){
+    this.priority = event.target.value;
+  }
+
+  handleChangeType(event){
+    this.type = event.target.value;
+  }
+
+  handleChangeMessage(event){
+    this.textMessage = event.target.value;
+  }
+
   sendNotification(){
       sendNotificationSlack(this.priority, this.type, this.textMessage);
   }

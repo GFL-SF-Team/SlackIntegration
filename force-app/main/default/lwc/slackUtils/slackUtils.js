@@ -1,5 +1,4 @@
 import sendSlackNotification from "@salesforce/apex/L_SlackNotificationController.sendSlackNotification";
-// import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export const PRIORITY_HIGH = "HIGH";
 export const PRIORITY_MEDIUM = "MEDIUM";
@@ -14,14 +13,14 @@ export const CHANNELS_MANAGER_STATE = "channelManager";
 export const WORKSPACES_STATE = "workspaces";
 export const WORKSPACE_STATE = "workspace";
 
-export function sendNotificationSlack(priority, type, textMessage) {
-  sendSlackNotification({ priority, type, textMessage })
-    .then(result => {
-      console.log("The message has been sent");
-    })
-    .catch(error => {
-      console.log("Error string: " + JSON.stringify(error));
-    });
+export async function sendNotificationSlack(priority, type, textMessage) {
+
+  try{
+    await sendSlackNotification({ priority, type, textMessage });
+
+  }catch(error){
+      console.log("Error while sending to Slack: " + JSON.stringify(error));
+  }
 }
 
 export function navigateToChannels(cmp, update = false) {

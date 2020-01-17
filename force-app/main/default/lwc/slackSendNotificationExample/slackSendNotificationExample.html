@@ -9,20 +9,20 @@
                     <div class="slds-col slds-size_1-of-3 slds-m-around--medium">
                         <div class="slds-m-around--medium">
                             <lightning-input name="message" label="Enter the text for slack notification:"
-                                value={textMessage}>
+                                value={textMessage} onchange={handleChangeMessage}>
                             </lightning-input>
                             <div class="slds-grid">
 
                                 <div class="slds-col">
                                     <lightning-radio-group name="priorityRadioGroup" label="Priority"
-                                        options={priorityOptions} value={priority} type="radio">
+                                        options={priorityOptions} value={priority} type="radio" onchange={handleChangePriority}>
                                     </lightning-radio-group>
 
                                 </div>
 
                                 <div class="slds-col">
                                     <lightning-radio-group name="typeRadioGroup" label="Type" options={typesOptions}
-                                        value={type} type="radio">
+                                        value={type} type="radio" onchange={handleChangeType}>
                                     </lightning-radio-group>
                                 </div>
 
