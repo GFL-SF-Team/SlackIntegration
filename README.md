@@ -115,7 +115,8 @@ Go to https://api.slack.com -> Your apps
 	let textMessage = 'Some message to Slack';
 ```
 
-- Use `sendNotificationSlack` method of this component.
+- invoke `sendNotificationSlack` method with given parameters:
+
 ```javascript
 	utils.sendNotificationSlack(priority, type, textMessage);
 ```
