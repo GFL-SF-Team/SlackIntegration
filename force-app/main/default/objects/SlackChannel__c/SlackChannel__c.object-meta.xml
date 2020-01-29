@@ -3,5 +3,5 @@
     <customSettingsType>List</customSettingsType>
     <enableFeeds>false</enableFeeds>
     <label>Slack Channel</label>
-    <visibility>Public</visibility>
+    <visibility>Protected</visibility>
 </CustomObject>

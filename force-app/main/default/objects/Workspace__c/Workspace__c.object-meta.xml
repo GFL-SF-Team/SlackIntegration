@@ -3,5 +3,5 @@
     <customSettingsType>List</customSettingsType>
     <enableFeeds>false</enableFeeds>
     <label>Workspace</label>
-    <visibility>Public</visibility>
+    <visibility>Protected</visibility>
 </CustomObject>

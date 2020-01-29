@@ -32,7 +32,12 @@ public class Util_SlackSettingsData {
 			throw new ShowMessageException('Token is empty!');
 		}
 
-		upsert workspace;
+		if (Schema.SObjectType.Workspace__c.fields.Name.isCreateable() && Schema.SObjectType.Workspace__c.fields.Name.isUpdateable() &&
+		 	Schema.SObjectType.Workspace__c.fields.Token__c.isCreateable() && Schema.SObjectType.Workspace__c.fields.Token__c.isUpdateable()){
+			upsert workspace;
+		}else{
+			throw new ShowMessageException('You are not allowed to change a workspace');
+		}
 
 	}
 
@@ -47,8 +52,12 @@ public class Util_SlackSettingsData {
 		SlackChannel__c[] channelsFromWorkspace =
 		Util_SlackSettingsData.getWorkspaceChannelsFromSettings(workspace.Id);
 
-		delete channelsFromWorkspace;
-		delete workspace;
+		if (Schema.SObjectType.Workspace__c.isDeletable() && Schema.SObjectType.SlackChannel__c.isDeletable()){
+			delete channelsFromWorkspace;
+			delete workspace;
+		} else{
+			throw new ShowMessageException('You are not allowed to delete a workspace');
+		}
 
 	}
 
@@ -101,8 +110,12 @@ public class Util_SlackSettingsData {
 			channel.WorkspaceId__c = workspaceId;
 		}   
 
-		delete workspaceChannelsFromSettings;
-		insert selectedChannels;
+		if (Schema.SObjectType.SlackChannel__c.isDeletable()&&Schema.SObjectType.SlackChannel__c.isCreateable()){
+			delete workspaceChannelsFromSettings;
+			insert selectedChannels;
+		} else{
+			throw new ShowMessageException('You are not allowed to change channels');
+		}
 
 	}
 
@@ -114,7 +127,11 @@ public class Util_SlackSettingsData {
 	 */
 	public static void deleteChannel(SlackChannel__c channel) {
 
-		delete channel;
+		if (Schema.SObjectType.SlackChannel__c.isDeletable()){
+			delete channel;
+		} else{
+			throw new ShowMessageException('You are not allowed to delete a channel');
+		}
 
 	}
 
