@@ -4,7 +4,7 @@
  * @date: 30.08.19
  * @description: Helper data class for L_SlackChannelsController and L_SlackWorkspacesListController classes
  */
-public class Util_SlackSettingsData {
+public with sharing class Util_SlackSettingsData {
 
 	/*
 	 * @date: 02.09.19

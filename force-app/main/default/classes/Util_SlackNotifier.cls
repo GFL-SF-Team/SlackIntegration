@@ -4,7 +4,7 @@
  * @date: 15.08.19
  * @description: Performs broadcasting a message to workspace channels or users
  */
-global class Util_SlackNotifier {
+public with sharing class Util_SlackNotifier {
 
 	/*
 	 * @date: 15.08.2019

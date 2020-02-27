@@ -4,7 +4,7 @@
  * @date: 15.08.19
  * @description: Helper for Util_SlackNotifier class
  */
-public class Util_SlackNotifierHelper {
+public with sharing class Util_SlackNotifierHelper {
 
 	/*
 	 * @date: 15.08.2019

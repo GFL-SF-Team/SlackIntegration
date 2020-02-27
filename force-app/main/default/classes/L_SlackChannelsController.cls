@@ -4,7 +4,7 @@
  * @date: 30.08.19
  * @description: Controller class for SlackChannels Lightning component
  */
-public class L_SlackChannelsController {
+public with sharing class L_SlackChannelsController {
 
 
 	public static final LightningResult RESPONSE =  new LightningResult();
@@ -88,6 +88,9 @@ public class L_SlackChannelsController {
 			Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannels, workspaceId);
 			RESPONSE.setResult('');
 
+		}catch (ShowMessageException e){
+			RESPONSE.setErrorWithShowing(e.getMessage());
+			
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());
 		}
@@ -108,6 +111,9 @@ public class L_SlackChannelsController {
 			Util_SlackSettingsData.deleteChannel(channel);
 			RESPONSE.setResult('');
 
+		}catch (ShowMessageException e){
+			RESPONSE.setErrorWithShowing(e.getMessage());
+			
 		}catch (Exception e){
 			RESPONSE.setError(e.getMessage());
 		}

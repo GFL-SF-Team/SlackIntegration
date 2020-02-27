@@ -4,7 +4,7 @@
  * @date: 30.08.19
  * @description: Controller class for SlackWorkspacesList Lightning component
  */
-public class L_SlackWorkspacesListController {
+public with sharing class L_SlackWorkspacesListController {
 
 	public static final LightningResult RESPONSE = new LightningResult();
 
@@ -39,7 +39,6 @@ public class L_SlackWorkspacesListController {
 	public static LightningResult saveWorkspace(Workspace__c workspace) {
 
 		try{
-
 			Util_SlackSettingsData.saveWorkspace(workspace);
 			RESPONSE.setResult(JSON.serialize(''));
 			
@@ -65,6 +64,9 @@ public class L_SlackWorkspacesListController {
 		try{
 			Util_SlackSettingsData.deleteWorkspace(workspace);
 			RESPONSE.setResult(JSON.serialize(''));
+			
+		}catch (ShowMessageException e){
+			RESPONSE.setErrorWithShowing(e.getMessage());
 			
 		} catch(Exception e) {
 			RESPONSE.setError(e.getMessage());

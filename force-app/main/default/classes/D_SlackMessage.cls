@@ -4,7 +4,7 @@
  * @date: 15.08.19
  * @description: Data class for composing slack messages. Used by Util_SlackNotifier and L_SlackNotificationController
  */
-public class D_SlackMessage {
+public with sharing class D_SlackMessage {
 
 	public enum EventType {
 			ERROR, WARNING, INFO
@@ -20,7 +20,7 @@ public class D_SlackMessage {
 	 * @date: 15.08.19
 	 * @description: Parent class for ApexMessage and LightningMessage, describes general creation of message
 	 */
-	public abstract class Message{
+	public with sharing abstract class Message{
 
 		private EventType typeEvent = EventType.INFO;
 		private Priority priorityLevel = Priority.LOW;

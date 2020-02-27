@@ -4,18 +4,19 @@
             "path": "force-app",
             "default": true,
             "package": "SlackIntegration",
-            "versionName": "Version 0.4",
-            "versionNumber": "0.4.0.NEXT"
+            "versionName": "Version 1.0",
+            "versionNumber": "1.0.1.NEXT"
         }
     ],
     "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "47.0",
     "packageAliases": {
-        "SlackIntegration": "0Ho2o000000CaTDCA0",
-        "SlackIntegration@0.2.0-1": "04t2o000000a9ZCAAY",
-        "SlackIntegration@0.3.0-1": "04t2o000000aYtgAAE",
-        "SlackIntegration@0.4.0-1": "04t2o000000aZthAAE"
-
+        "SlackIntegration": "0Ho3X000000XZG0SAO",
+        "SlackIntegration@0.1.0-1": "04t2o000001R5igAAC",
+        "SlackIntegration@1.0.0-1": "04t3X0000037mETQAY",
+        "SlackIntegration@1.0.0-2": "04t3X0000037rZ7QAI",
+        "SlackIntegration@1.0.0-3": "04t3X0000037tZ9QAI",
+        "SlackIntegration@1.0.1-1": "04t3X0000037vQqQAI"
     }
 }

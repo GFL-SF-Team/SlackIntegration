@@ -4,7 +4,7 @@
  * @date: 15.08.19
  * @description: Controller for SlackNotification Lightning Component
  */
-public class L_SlackNotificationController {
+public with sharing class L_SlackNotificationController {
 
 	/*
 	 * @date: 15.08.19
