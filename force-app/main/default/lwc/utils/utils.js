@@ -1,3 +1,12 @@
+/**
+ * @File Name          : utils.js
+ * @Description        : Some common util functions for retrieving data and handling errors
+ * @Author             : Pavel Riabov
+ * @Last Modified By   : Pavel Riabov
+ * @Last Modified On   : 28.02.2020, 13:01:22
+ * Ver       Date            Author      		    Modification
+ * 1.0    28.02.2020   Pavel Riabov     Initial Version
+**/
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 import * as $Validation from "./validationUtils";
@@ -170,6 +179,9 @@ export function showCriticalErrorToast(cmp, code) {
   showToast(cmp, title, message, variant, mode);
 }
 
+/**
+ * @description: Shows error notification with given text
+ */
 export function showNotifyWithError(cmp, messageText) {
   if (!$Validation.isInheritedFromLightningElement(cmp)) return;
 
@@ -181,6 +193,9 @@ export function showNotifyWithError(cmp, messageText) {
   showToast(cmp, title, message, variant, mode);
 }
 
+/**
+ * @description: Parses SObject or list of SObjects from JSON and deletes 'attributes' variable from the result
+ */
 export function parseSObjects(jsonString) {
   let result = JSON.parse(jsonString);
 
@@ -197,6 +212,9 @@ export function parseSObjects(jsonString) {
   return result;
 }
 
+/**
+ * @description: Retrieves and parses SObjects from Apex along with handling some errors
+ */
 export async function getSObjectsFromApex(cmp, apexFunction, apexFunctionParams = {}) {
 
   return new Promise(async (resolve, reject) => {
@@ -213,6 +231,9 @@ export async function getSObjectsFromApex(cmp, apexFunction, apexFunctionParams 
   });
 }
 
+/**
+ * @description: Checks if the response from Apex was successful
+ */
 export async function handleResponse(cmp, response) {
 
   return new Promise(async (resolve, reject) => {
@@ -226,12 +247,16 @@ export async function handleResponse(cmp, response) {
   });
 }
 
+/**
+ * @description: Handles errors caused by wrong request and errors on Apex side
+ */
 export function handleErrors(cmp, errors) {
 
   if (errors.hasOwnProperty("response")) {
 
     let response = errors.response;
 
+    // if the error message from Apex should be displayed
     if (!response.success && response.code === SHOW_MESSAGE_CODE) {
       showNotifyWithError(cmp, response.message);
 

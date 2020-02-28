@@ -1,3 +1,12 @@
+/**
+ * @File Name          : slackChannelsApp.js
+ * @Description        : Basic containter for other components
+ * @Author             : Pavel Riabov
+ * @Last Modified By   : Pavel Riabov
+ * @Last Modified On   : 27.02.2020, 18:09:18
+ * Ver       Date            Author      		    Modification
+ * 1.0    27.02.2020   Pavel Riabov     Initial Version
+**/
 import { LightningElement, track } from "lwc";
 import getSlackChannels from "@salesforce/apex/L_SlackChannelsController.getSlackChannels";
 import getWorkspaces from "@salesforce/apex/L_SlackChannelsController.getWorkspaces";
@@ -19,6 +28,8 @@ export default class SlackChannelsApp extends LightningElement {
 
   constructor() {
     super();
+
+    // updates browser's history to be able to go back and forward
     this.state = CHANNELS_STATE;
     window.history.replaceState(CHANNELS_STATE, null, "");
 
@@ -34,6 +45,9 @@ export default class SlackChannelsApp extends LightningElement {
     this.retrieveChannels();
   }
 
+  /**
+   * @description: Retrieves channels and workspaces already existing in Custom Settings
+   */
   async retrieveChannels() {
     try {
       let workspaces = await getSObjectsFromApex(this, getWorkspaces);
@@ -44,8 +58,8 @@ export default class SlackChannelsApp extends LightningElement {
         workspacesMap[workspace.Id] = workspace;
       }
 
+      // set a name of every workspace to every channel
       channels = channels.map(channel => {
-
         return {
           ...channel,
           workspaceName: workspacesMap[channel.WorkspaceId__c].Name
@@ -60,16 +74,22 @@ export default class SlackChannelsApp extends LightningElement {
     }
   }
 
+  /**
+   * @description: Handles an event from other component to update data and/or navigate to other component
+   */
   handleNavigate(event) {
 
+    // update data if event's update field is true
     if (event.detail.update) {
       this.retrieveChannels();
     }
 
+    // set the workspace in case of editing workspace
     if (event.detail.workspace) {
       this.editingWorkspace = event.detail.workspace;
     }
 
+    // navigate to other component if the event's state field exists
     if (event.detail.state) {
       this.state = event.detail.state;
       window.history.pushState(event.detail.state, null);

@@ -1,3 +1,12 @@
+/**
+ * @File Name          : slackWorkspacesList.js
+ * @Description        : Performs actions on a list of workspaces
+ * @Author             : Pavel Riabov
+ * @Last Modified By   : Pavel Riabov
+ * @Last Modified On   : 28.02.2020, 12:54:58
+ * Ver       Date            Author      		    Modification
+ * 1.0    28.02.2020   Pavel Riabov     Initial Version
+**/
 import { LightningElement, api } from "lwc";
 import deleteWorkspace from "@salesforce/apex/L_SlackWorkspacesListController.deleteWorkspace";
 import { navigateToChannels, navigateToWorkspace, updateData } from "c/slackUtils";
@@ -22,14 +31,23 @@ export default class SlackWorkspacesList extends LightningElement(
     }
   ];
 
+  /**
+   * @description: Navigates to slackWorkspace component with new empty workspace
+   */
   newWorkspace() {
     navigateToWorkspace(this);
   }
 
+  /**
+   * @description: Navigates back to slackChannels component
+   */
   back() {
     navigateToChannels(this);
   }
 
+  /**
+   * @description: Handles and action on selected workspace
+   */
   handleRowAction(event) {
     let action = event.detail.action;
     let workspace = event.detail.row;
@@ -46,10 +64,16 @@ export default class SlackWorkspacesList extends LightningElement(
     }
   }
 
+  /**
+   * @description: Navigates to slackWorkspace component with selected workspace
+   */
   editWorkspace(workspace) {
     navigateToWorkspace(this, workspace);
   }
 
+  /**
+   * @description: Deletes given workspace and updates data
+   */
   async deleteRecord(workspace) {
 
     try {
@@ -67,6 +91,9 @@ export default class SlackWorkspacesList extends LightningElement(
     }
   }
 
+  /**
+   * @description: Checks if the workspace list is empty
+   */
   get isEmptyWorkspacesList() {
     return this.workspacesList && this.workspacesList.length == 0;
   }

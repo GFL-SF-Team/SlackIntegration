@@ -1,3 +1,12 @@
+/**
+ * @File Name          : slackChannelsManager.js
+ * @Description        : Changes a list of channels to which a message will be sent
+ * @Author             : Pavel Riabov
+ * @Last Modified By   : Pavel Riabov
+ * @Last Modified On   : 27.02.2020, 18:17:16
+ * Ver       Date            Author      		    Modification
+ * 1.0    27.02.2020   Pavel Riabov     Initial Version
+**/
 import { LightningElement, api, track } from "lwc";
 import getExistingSlackChannels from "@salesforce/apex/L_SlackChannelsController.getExistingSlackChannels";
 import saveChannelsFromWorkspace from "@salesforce/apex/L_SlackChannelsController.saveChannelsFromWorkspace";
@@ -14,10 +23,12 @@ export default class SlackChannelsManager extends LightningElement {
 
   connectedCallback() {
 
+    // set label and value for correct rendering
     this.workspacesList = this.workspacesList.map(workspace => {
       return { label: workspace.Name, value: workspace.Token__c, ...workspace };
     });
 
+    // select the first workspace and load its channels
     let selectedWorkspace = this.workspacesList[0];
 
     if (!this.selectedWorkspaceValue) {
@@ -26,16 +37,21 @@ export default class SlackChannelsManager extends LightningElement {
     this.getWorkspaceChannels(selectedWorkspace);
   }
 
+  /**
+   * @description: Gets all channels from Slack and select those which are set in Custom Settings
+   */
   async getWorkspaceChannels(selectedWorkspace) {
 
     try {
       let workspaceToken = selectedWorkspace.Token__c;
       this.channelsSelectedIds = [];
       this.channelsFromSlack = [];
+      // get all existing channels from Slack workspace
       this.channelsFromSlack = await getSObjectsFromApex(this, getExistingSlackChannels,{workspaceToken});
 
       let workspaceId = selectedWorkspace.Id;
 
+      // add some fields for every channel for correct rendering
       this.channelsFromSlack = this.channelsFromSlack.map(channel => {
 
         return {
@@ -56,6 +72,7 @@ export default class SlackChannelsManager extends LightningElement {
         workspaceChannelsIds.includes(channel.IdChannel__c)
       );
 
+      // set selected channels that are already exist in Custom Settigs
       this.channelsSelectedIds = selectedChannels.map(
         channel => channel.IdChannel__c
       );
@@ -65,10 +82,16 @@ export default class SlackChannelsManager extends LightningElement {
     }
   }
 
+  /**
+   * @description: Moves back to slackChannels component without saving
+   */
   cancel() {
     navigateToChannels(this, false);
   }
 
+  /**
+   * @description: Saves selected channels and returns to slackChannels component
+   */
   async save() {
 
     let selectedWorkspace = this.workspacesList.filter(
@@ -92,10 +115,16 @@ export default class SlackChannelsManager extends LightningElement {
     }
   }
 
+  /**
+   * @description: Sets Ids of selected channels to component's variable
+   */
   handleListboxChange(event) {
     this.channelsSelectedIds = event.detail.value;
   }
 
+  /**
+   * @description: Updates channels list from selected workspace
+   */
   updateChannels(event) {
     this.selectedWorkspaceValue = event.detail.value;
 
