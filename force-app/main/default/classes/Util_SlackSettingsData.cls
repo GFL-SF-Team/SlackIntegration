@@ -34,6 +34,7 @@ public with sharing class Util_SlackSettingsData {
 
 		if (Schema.SObjectType.Workspace__c.fields.Name.isCreateable() && Schema.SObjectType.Workspace__c.fields.Name.isUpdateable() &&
 		 	Schema.SObjectType.Workspace__c.fields.Token__c.isCreateable() && Schema.SObjectType.Workspace__c.fields.Token__c.isUpdateable()){
+
 			upsert workspace;
 		}else{
 			throw new ShowMessageException('You are not allowed to change a workspace');

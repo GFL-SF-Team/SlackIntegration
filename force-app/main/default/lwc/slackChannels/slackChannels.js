@@ -23,8 +23,8 @@ import {
 export default class SlackChannels extends LightningElement {
   // information for creating the table
   columns = [
-    { label: "Channel name", fieldName: "NameChannel__c", type: "text" },
-    { label: "Channel Id", fieldName: "IdChannel__c", type: "text" },
+    { label: "Channel name", fieldName: "slackIntegr__NameChannel__c", type: "text" },
+    { label: "Channel Id", fieldName: "slackIntegr__IdChannel__c", type: "text" },
     { label: "Workspace Name", fieldName: "workspaceName", type: "text" },
     {
       type: "action",
@@ -75,6 +75,7 @@ export default class SlackChannels extends LightningElement {
    */
   async deleteRecord(channel) {
 
+    channel = JSON.stringify(channel);
     try {
       let response = await deleteChannel({ channel });
       await handleResponse(this, response);

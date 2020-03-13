@@ -37,7 +37,7 @@ private class L_SlackWorkspacesListControllerTest {
 				Token__c = 'xoxp-567890123456-012345678901-012345678901-thethirdtokenexample123456789012');
 
 		Test.startTest();
-		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(workspace3);
+		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(JSON.serialize(workspace3));
 		Test.stopTest();
 		
 		Workspace__c[] workspaces = [SELECT Id FROM Workspace__c LIMIT 1000];
@@ -52,7 +52,7 @@ private class L_SlackWorkspacesListControllerTest {
 				Token__c = '');
 
 		Test.startTest();
-		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(workspace3);
+		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(JSON.serialize(workspace3));
 		Test.stopTest();
 
 		System.assert(!response.success);
@@ -63,7 +63,7 @@ private class L_SlackWorkspacesListControllerTest {
 		Workspace__c workspace3 = null;
 
 		Test.startTest();
-		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(workspace3);
+		LightningResult response = L_SlackWorkspacesListController.saveWorkspace(JSON.serialize(workspace3));
 		Test.stopTest();
 
 		System.assert(!response.success);
@@ -74,7 +74,7 @@ private class L_SlackWorkspacesListControllerTest {
 		Workspace__c workspaceToDelete = [SELECT Id, Name, Token__c FROM Workspace__c LIMIT 1];
 
 		Test.startTest();
-		LightningResult response = L_SlackWorkspacesListController.deleteWorkspace(workspaceToDelete);
+		LightningResult response = L_SlackWorkspacesListController.deleteWorkspace(JSON.serialize(workspaceToDelete));
 		Test.stopTest();
 
 		Workspace__c[] workspaces = [SELECT Id FROM Workspace__c LIMIT 1000];
@@ -88,7 +88,7 @@ private class L_SlackWorkspacesListControllerTest {
 		Workspace__c workspaceToDelete = new Workspace__c(Name='Some name', Token__c='some token');
 
 		Test.startTest();
-		LightningResult response = L_SlackWorkspacesListController.deleteWorkspace(workspaceToDelete);
+		LightningResult response = L_SlackWorkspacesListController.deleteWorkspace(JSON.serialize(workspaceToDelete));
 		Test.stopTest();
 
 		System.assert(!response.success);

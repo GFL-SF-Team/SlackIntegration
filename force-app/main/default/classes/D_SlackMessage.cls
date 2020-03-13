@@ -4,13 +4,13 @@
  * @date: 15.08.19
  * @description: Data class for composing slack messages. Used by Util_SlackNotifier and L_SlackNotificationController
  */
-public with sharing class D_SlackMessage {
+global with sharing class D_SlackMessage {
 
-	public enum EventType {
+	global enum EventType {
 			ERROR, WARNING, INFO
 	}
 
-	public enum Priority {
+	global enum Priority {
 			HIGH, MEDIUM, LOW
 	}
 
@@ -20,7 +20,7 @@ public with sharing class D_SlackMessage {
 	 * @date: 15.08.19
 	 * @description: Parent class for ApexMessage and LightningMessage, describes general creation of message
 	 */
-	public with sharing abstract class Message{
+	global with sharing abstract class Message{
 
 		private EventType typeEvent = EventType.INFO;
 		private Priority priorityLevel = Priority.LOW;
@@ -93,13 +93,19 @@ public with sharing class D_SlackMessage {
 		 * @date: 15.08.19
 		 * @description: Creates plain message content
 		 */
-		protected abstract String createPlainBodyMessage();
+		protected virtual String createPlainBodyMessage(){
+
+			return null;
+		}
 
 		/*
 		 * @date: 15.08.19
 		 * @description: Creates rich message content
 		 */
-		protected abstract List<Object> createRichBodyMessage();
+		protected virtual List<Object> createRichBodyMessage(){
+
+			return null;
+		}
 
 		/*
 		 * @date: 15.08.19
@@ -129,7 +135,7 @@ public with sharing class D_SlackMessage {
 		 * @date: 15.08.19
 		 * @description: Creates message text and sends it to slack
 		 */
-		public void broadcast() {
+		global void broadcast() {
 
 			String plainMessage = this.createPlainMessage();
 			String richMessage = this.createRichMessage();
@@ -195,7 +201,7 @@ public with sharing class D_SlackMessage {
 		 * @description: Sets current event type from given string
 		 * @param: typeEvent - String event type
 		 */
-		public void setTypeEvent(String typeEvent) {
+		global void setTypeEvent(String typeEvent) {
 
 			switch on typeEvent {
 				when 'ERROR'{
@@ -216,7 +222,7 @@ public with sharing class D_SlackMessage {
 		 * @description: Sets current priority level from given string
 		 * @param: priorityLevel - String priority level
 		 */
-		public void setPriorityLevel(String priorityLevel) {
+		global void setPriorityLevel(String priorityLevel) {
 
 			switch on priorityLevel {
 				when 'HIGH'{
@@ -233,19 +239,19 @@ public with sharing class D_SlackMessage {
 		}
 
 
-		public void setTypeEvent(EventType typeEvent) {
+		global void setTypeEvent(EventType typeEvent) {
 
 			this.typeEvent = typeEvent;
 		}
 
 
-		public void setPriorityLevel(Priority priorityLevel) {
+		global void setPriorityLevel(Priority priorityLevel) {
 
 			this.priorityLevel = priorityLevel;
 		}
 
 
-		public void setNotificationText(String notificationText) {
+		global void setNotificationText(String notificationText) {
 
 			this.notificationText = notificationText;
 		}
@@ -257,7 +263,7 @@ public with sharing class D_SlackMessage {
 	 * @date: 15.08.19
 	 * @description: Defines a message from Apex (back-end)
 	 */
-	public class ApexMessage extends Message{
+	global class ApexMessage extends Message{
 
 		private String className;
 		private String methodName;
@@ -265,7 +271,7 @@ public with sharing class D_SlackMessage {
 		private Exception thrownException;
 
 
-		public ApexMessage() {
+		global ApexMessage() {
 			this.source = 'Apex';
 		}
 
@@ -348,26 +354,26 @@ public with sharing class D_SlackMessage {
 
 		//setters
 
-		public void setClassName(String className) {
+		global void setClassName(String className) {
 
 			this.className = className;
 		}
 
 
-		public void setMethodName(String methodName) {
+		global void setMethodName(String methodName) {
 
 			this.methodName = methodName;
 		}
 
 
-		public void setLineNumber(Integer lineNumber) {
+		global void setLineNumber(Integer lineNumber) {
 
 			this.lineNumber = lineNumber;
 		}
 
 
-		public void setThrownException(Exception thrownException) {
-
+		global void setThrownException(Exception thrownException) {
+			
 			this.thrownException = thrownException;
 		}
 
@@ -379,9 +385,9 @@ public with sharing class D_SlackMessage {
 	 * @date: 15.08.19
 	 * @description: Defines a message from Lightning (front-end)
 	 */
-	public class LightningMessage extends Message{
+	global class LightningMessage extends Message{
 
-		public LightningMessage() {
+		global LightningMessage() {
 			this.source = 'Lightning';
 		}
 

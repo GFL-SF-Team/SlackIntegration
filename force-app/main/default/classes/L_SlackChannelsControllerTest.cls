@@ -96,7 +96,7 @@ private class L_SlackChannelsControllerTest {
 			channel1, channel2, channel3 };
 
 		Test.startTest();
-		LightningResult response = L_SlackChannelsController.saveChannelsFromWorkspace(channelsList, workspaceId);
+		LightningResult response = L_SlackChannelsController.saveChannelsFromWorkspace(JSON.serialize(channelsList), workspaceId);
 		Test.stopTest();
 
 		SlackChannel__c[] channelsListAfterInsert = [SELECT Id FROM SlackChannel__c LIMIT 1000];
@@ -117,7 +117,7 @@ private class L_SlackChannelsControllerTest {
 		SlackChannel__c[] channelsList = new SlackChannel__c [] { channel1 };
 
 		Test.startTest();
-		LightningResult response = L_SlackChannelsController.saveChannelsFromWorkspace(channelsList, workspaceId);
+		LightningResult response = L_SlackChannelsController.saveChannelsFromWorkspace(JSON.serialize(channelsList), workspaceId);
 		Test.stopTest();
 
 		System.assert(!response.success);
@@ -129,7 +129,7 @@ private class L_SlackChannelsControllerTest {
 		SlackChannel__c channelToDelete = [SELECT Id FROM SlackChannel__c LIMIT 1];
 
 		Test.startTest();
-		LightningResult response = L_SlackChannelsController.deleteChannel(channelToDelete);
+		LightningResult response = L_SlackChannelsController.deleteChannel(JSON.serialize(channelToDelete));
 		Test.stopTest();
 
 		SlackChannel__c[] channelsListAfterInsert = [SELECT Id FROM SlackChannel__c LIMIT 1000];
@@ -143,7 +143,7 @@ private class L_SlackChannelsControllerTest {
 		SlackChannel__c channelToDelete = new SlackChannel__c(Name='Some Channel', IdChannel__c='SOME_ID12');
 
 		Test.startTest();
-		LightningResult response = L_SlackChannelsController.deleteChannel(channelToDelete);
+		LightningResult response = L_SlackChannelsController.deleteChannel(JSON.serialize(channelToDelete));
 		Test.stopTest();
 
 		SlackChannel__c[] channelsListAfterInsert = [SELECT Id FROM SlackChannel__c LIMIT 1000];

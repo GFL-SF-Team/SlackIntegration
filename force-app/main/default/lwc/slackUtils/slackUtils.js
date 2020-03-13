@@ -54,7 +54,7 @@ export function navigateToWorkspaces(cmp, update = false) {
 /**
  * @description: Navigates to slackWorkspace component
  */
-export function navigateToWorkspace( cmp, workspace = { Name: "", Token__c: "" }) {
+export function navigateToWorkspace( cmp, workspace = { Name: "", slackIntegr__Token__c: "" }) {
   navigateToState(cmp, WORKSPACE_STATE, false, { workspace });
 }
 

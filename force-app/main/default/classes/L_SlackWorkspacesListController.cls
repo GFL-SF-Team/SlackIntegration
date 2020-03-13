@@ -4,7 +4,7 @@
  * @date: 30.08.19
  * @description: Controller class for SlackWorkspacesList Lightning component
  */
-public with sharing class L_SlackWorkspacesListController {
+global with sharing class L_SlackWorkspacesListController {
 
 	public static final LightningResult RESPONSE = new LightningResult();
 
@@ -14,7 +14,7 @@ public with sharing class L_SlackWorkspacesListController {
 	 * @test: L_SlackWorkspacesListControllerTest.testGetWorkspaces()
 	 */
 	@AuraEnabled
-	public static LightningResult getWorkspaces() {
+	global static LightningResult getWorkspaces() {
 
 		Workspace__c[] workspacesList;
 
@@ -36,10 +36,11 @@ public with sharing class L_SlackWorkspacesListController {
 	 * @test: L_SlackWorkspacesListControllerTest.testSaveWorkspace()
 	 */
 	@AuraEnabled
-	public static LightningResult saveWorkspace(Workspace__c workspace) {
+	global static LightningResult saveWorkspace(String workspace) {
 
 		try{
-			Util_SlackSettingsData.saveWorkspace(workspace);
+			Workspace__c workspaceParsed = (Workspace__c)JSON.deserialize(workspace, Workspace__c.class);
+			Util_SlackSettingsData.saveWorkspace(workspaceParsed);
 			RESPONSE.setResult(JSON.serialize(''));
 			
 		}catch (ShowMessageException e){
@@ -59,10 +60,11 @@ public with sharing class L_SlackWorkspacesListController {
 	 * @test: L_SlackWorkspacesListControllerTest.testDeleteWorkspace()
 	 */
 	@AuraEnabled
-	public static LightningResult deleteWorkspace(Workspace__c workspace) {
+	global static LightningResult deleteWorkspace(String workspace) {
 
 		try{
-			Util_SlackSettingsData.deleteWorkspace(workspace);
+			Workspace__c workspaceParsed = (Workspace__c)JSON.deserialize(workspace, Workspace__c.class);
+			Util_SlackSettingsData.deleteWorkspace(workspaceParsed);
 			RESPONSE.setResult(JSON.serialize(''));
 			
 		}catch (ShowMessageException e){

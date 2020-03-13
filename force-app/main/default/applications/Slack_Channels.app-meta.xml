@@ -11,8 +11,8 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Slack Channels</label>
     <navType>Standard</navType>
-    <tabs>Slack_Channels</tabs>
-    <tabs>Slack_Send_Test</tabs>
+    <tabs>slackIntegr__Slack_Channels</tabs>
+    <tabs>slackIntegr__Slack_Send_Test</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Slack_Channels_UtilityBar</utilityBar>
+    <utilityBar>slackIntegr__Slack_Channels_UtilityBar</utilityBar>
 </CustomApplication>

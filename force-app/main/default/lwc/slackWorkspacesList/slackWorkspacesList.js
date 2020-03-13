@@ -19,7 +19,7 @@ export default class SlackWorkspacesList extends LightningElement(
 
   columns = [
     { label: "Workspace name", fieldName: "Name", type: "text" },
-    { label: "token", fieldName: "Token__c", type: "text" },
+    { label: "token", fieldName: "slackIntegr__Token__c", type: "text" },
     {
       type: "action",
       typeAttributes: {
@@ -75,6 +75,7 @@ export default class SlackWorkspacesList extends LightningElement(
    * @description: Deletes given workspace and updates data
    */
   async deleteRecord(workspace) {
+    workspace = JSON.stringify(workspace);
 
     try {
       let response = await deleteWorkspace({ workspace });

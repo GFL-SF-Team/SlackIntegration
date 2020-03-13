@@ -4,7 +4,7 @@
  * @date: 15.08.19
  * @description: Controller for SlackNotification Lightning Component
  */
-public with sharing class L_SlackNotificationController {
+global with sharing class L_SlackNotificationController {
 
 	/*
 	 * @date: 15.08.19
@@ -15,7 +15,7 @@ public with sharing class L_SlackNotificationController {
 	 * @test: L_SlackNotificationControllerTest.testSendSlackNotification()
 	 */
 	@AuraEnabled
-	public static void sendSlackNotification(String type, String priority, String textMessage) {
+	global static void sendSlackNotification(String type, String priority, String textMessage) {
 
 		D_SlackMessage.LightningMessage slackMessage = new D_SlackMessage.LightningMessage();
 		slackMessage.setTypeEvent(type);

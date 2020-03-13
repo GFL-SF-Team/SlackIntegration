@@ -4,7 +4,7 @@
  * @date: 30.08.19
  * @description: Controller class for SlackChannels Lightning component
  */
-public with sharing class L_SlackChannelsController {
+global with sharing class L_SlackChannelsController {
 
 
 	public static final LightningResult RESPONSE =  new LightningResult();
@@ -14,7 +14,7 @@ public with sharing class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testGetSlackChannels()
 	 */
 	@AuraEnabled
-	public static LightningResult getSlackChannels() {
+	global static LightningResult getSlackChannels() {
 
 		SlackChannel__c[] slackChannelsList;
 
@@ -35,7 +35,7 @@ public with sharing class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testGetWorkspaces()
 	 */
 	@AuraEnabled
-	public static LightningResult getWorkspaces() {
+	global static LightningResult getWorkspaces() {
 		Workspace__c[] slackWorkspacesList;
 
 		try{
@@ -56,7 +56,7 @@ public with sharing class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testGetExistingSlackChannels()
 	 */
 	@AuraEnabled
-	public static LightningResult getExistingSlackChannels(String workspaceToken) {
+	global static LightningResult getExistingSlackChannels(String workspaceToken) {
 
 		SlackChannel__c[] slackChannelsList;
 
@@ -82,10 +82,11 @@ public with sharing class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testSaveChannelsFromWorkspace()
 	 */
 	@AuraEnabled
-	public static LightningResult saveChannelsFromWorkspace(SlackChannel__c[] selectedChannels, String workspaceId) {
+	global static LightningResult saveChannelsFromWorkspace(String selectedChannels, String workspaceId) {
 
 		try{
-			Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannels, workspaceId);
+			SlackChannel__c[] selectedChannelsParsed = (SlackChannel__c[]) JSON.deserialize(selectedChannels, List<SlackChannel__c>.class);
+			Util_SlackSettingsData.saveChannelsFromWorkspace(selectedChannelsParsed, workspaceId);
 			RESPONSE.setResult('');
 
 		}catch (ShowMessageException e){
@@ -105,10 +106,11 @@ public with sharing class L_SlackChannelsController {
 	 * @test: L_SlackChannelsControllerTest.testDeleteChannel()
 	 */
 	@AuraEnabled
-	public static LightningResult deleteChannel(SlackChannel__c channel) {
+	global static LightningResult deleteChannel(String channel) {
 
 		try{
-			Util_SlackSettingsData.deleteChannel(channel);
+			SlackChannel__c channelParsed = (SlackChannel__c)JSON.deserialize(channel, SlackChannel__c.class);
+			Util_SlackSettingsData.deleteChannel(channelParsed);
 			RESPONSE.setResult('');
 
 		}catch (ShowMessageException e){

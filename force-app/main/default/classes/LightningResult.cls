@@ -5,25 +5,25 @@
  * @description: Response wrapper for Lightning Components
  * @history:
  */
-public class LightningResult {
+global class LightningResult {
 
 	private static final Integer SHOW_MESSAGE_CODE = 1001;
 
 	@AuraEnabled
 	/* Successful(TRUE) or not successful(FALSE) operation */
-	public Boolean success {get; set;}
+	global Boolean success {get; set;}
 
 	@AuraEnabled
 	/* For send a message */
-	public String message {get; set;}
+	global String message {get; set;}
 
 	@AuraEnabled
 	/* Data in JSON string */
-	public String data {get; set;}
+	global String data {get; set;}
 
 	@AuraEnabled
 	/* Code number for the error */
-	public Integer code {get; set;}
+	global Integer code {get; set;}
 
 	/* For success response - set JSON data  */
 	public void setResult(String data) {

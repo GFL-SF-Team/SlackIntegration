@@ -4,6 +4,14 @@
         <application>Slack_Channels</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <customSettingAccesses>
+        <enabled>true</enabled>
+        <name>SlackChannel__c</name>
+    </customSettingAccesses>
+    <customSettingAccesses>
+        <enabled>true</enabled>
+        <name>Workspace__c</name>
+    </customSettingAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Slack editor</label>
     <tabSettings>

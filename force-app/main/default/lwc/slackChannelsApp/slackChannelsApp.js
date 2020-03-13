@@ -62,7 +62,7 @@ export default class SlackChannelsApp extends LightningElement {
       channels = channels.map(channel => {
         return {
           ...channel,
-          workspaceName: workspacesMap[channel.WorkspaceId__c].Name
+          workspaceName: workspacesMap[channel.slackIntegr__WorkspaceId__c].Name
         };
       });
 
