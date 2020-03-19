@@ -25,10 +25,10 @@ export default class SlackWorkspace extends LightningElement {
     this.workspace = {
       ...this.workspace,
       Name: inputName.value,
-      slackIntegr__Token__c: inputToken.value,
+      slackMsg2__Token__c: inputToken.value,
     };
 
-    // let workspaceParam = 'name: '+this.workspace.Name+', token: '+this.workspace.slackIntegr__Token__c;
+    // let workspaceParam = 'name: '+this.workspace.Name+', token: '+this.workspace.slackMsg2__Token__c;
     let workspace = JSON.stringify(this.workspace);
     try {
       let response = await saveWorkspace({ workspace });

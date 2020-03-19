@@ -25,14 +25,14 @@ export default class SlackChannelsManager extends LightningElement {
 
     // set label and value for correct rendering
     this.workspacesList = this.workspacesList.map(workspace => {
-      return { label: workspace.Name, value: workspace.slackIntegr__Token__c, ...workspace };
+      return { label: workspace.Name, value: workspace.slackMsg2__Token__c, ...workspace };
     });
 
     // select the first workspace and load its channels
     let selectedWorkspace = this.workspacesList[0];
 
     if (!this.selectedWorkspaceValue) {
-      this.selectedWorkspaceValue = selectedWorkspace.slackIntegr__Token__c;
+      this.selectedWorkspaceValue = selectedWorkspace.slackMsg2__Token__c;
     }
     this.getWorkspaceChannels(selectedWorkspace);
   }
@@ -43,7 +43,7 @@ export default class SlackChannelsManager extends LightningElement {
   async getWorkspaceChannels(selectedWorkspace) {
 
     try {
-      let workspaceToken = selectedWorkspace.slackIntegr__Token__c;
+      let workspaceToken = selectedWorkspace.slackMsg2__Token__c;
       this.channelsSelectedIds = [];
       this.channelsFromSlack = [];
       // get all existing channels from Slack workspace
@@ -55,9 +55,9 @@ export default class SlackChannelsManager extends LightningElement {
       this.channelsFromSlack = this.channelsFromSlack.map(channel => {
 
         return {
-          label: channel.slackIntegr__NameChannel__c,
-          value: channel.slackIntegr__IdChannel__c,
-          slackIntegr__WorkspaceId__c: workspaceId,
+          label: channel.slackMsg2__NameChannel__c,
+          value: channel.slackMsg2__IdChannel__c,
+          slackMsg2__WorkspaceId__c: workspaceId,
           workspaceName: selectedWorkspace.Name,
           ...channel
         };
@@ -65,16 +65,16 @@ export default class SlackChannelsManager extends LightningElement {
       });
 
       let workspaceChannelsIds = this.channelsList
-        .filter(channel => channel.slackIntegr__WorkspaceId__c == workspaceId)
-        .map(channel => channel.slackIntegr__IdChannel__c);
+        .filter(channel => channel.slackMsg2__WorkspaceId__c == workspaceId)
+        .map(channel => channel.slackMsg2__IdChannel__c);
 
       let selectedChannels = this.channelsFromSlack.filter(channel =>
-        workspaceChannelsIds.includes(channel.slackIntegr__IdChannel__c)
+        workspaceChannelsIds.includes(channel.slackMsg2__IdChannel__c)
       );
 
       // set selected channels that are already exist in Custom Settigs
       this.channelsSelectedIds = selectedChannels.map(
-        channel => channel.slackIntegr__IdChannel__c
+        channel => channel.slackMsg2__IdChannel__c
       );
 
     } catch (error) {
@@ -95,11 +95,11 @@ export default class SlackChannelsManager extends LightningElement {
   async save() {
 
     let selectedWorkspace = this.workspacesList.filter(
-      workspace => workspace.slackIntegr__Token__c === this.selectedWorkspaceValue
+      workspace => workspace.slackMsg2__Token__c === this.selectedWorkspaceValue
     )[0];
 
     let selectedChannels = this.channelsFromSlack.filter(channel =>
-      this.channelsSelectedIds.includes(channel.slackIntegr__IdChannel__c)
+      this.channelsSelectedIds.includes(channel.slackMsg2__IdChannel__c)
     );
 
     let workspaceId = selectedWorkspace.Id;
@@ -130,7 +130,7 @@ export default class SlackChannelsManager extends LightningElement {
     this.selectedWorkspaceValue = event.detail.value;
 
     let selectedWorkspace = this.workspacesList.filter(
-      workspace => workspace.slackIntegr__Token__c === event.detail.value
+      workspace => workspace.slackMsg2__Token__c === event.detail.value
     )[0];
     
     this.getWorkspaceChannels(selectedWorkspace);

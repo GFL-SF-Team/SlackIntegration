@@ -19,7 +19,7 @@ export default class SlackWorkspacesList extends LightningElement(
 
   columns = [
     { label: "Workspace name", fieldName: "Name", type: "text" },
-    { label: "token", fieldName: "slackIntegr__Token__c", type: "text" },
+    { label: "token", fieldName: "slackMsg2__Token__c", type: "text" },
     {
       type: "action",
       typeAttributes: {

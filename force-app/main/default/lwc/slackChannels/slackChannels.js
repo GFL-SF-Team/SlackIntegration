@@ -23,8 +23,8 @@ import {
 export default class SlackChannels extends LightningElement {
   // information for creating the table
   columns = [
-    { label: "Channel name", fieldName: "slackIntegr__NameChannel__c", type: "text" },
-    { label: "Channel Id", fieldName: "slackIntegr__IdChannel__c", type: "text" },
+    { label: "Channel name", fieldName: "slackMsg2__NameChannel__c", type: "text" },
+    { label: "Channel Id", fieldName: "slackMsg2__IdChannel__c", type: "text" },
     { label: "Workspace Name", fieldName: "workspaceName", type: "text" },
     {
       type: "action",

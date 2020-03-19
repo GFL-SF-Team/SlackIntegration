@@ -9,10 +9,10 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>Slack Channels</label>
+    <label>Slack Channels App</label>
     <navType>Standard</navType>
-    <tabs>slackIntegr__Slack_Channels</tabs>
-    <tabs>slackIntegr__Slack_Send_Test</tabs>
+    <tabs>Slack_Channels</tabs>
+    <tabs>Slack_Send_Test</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>slackIntegr__Slack_Channels_UtilityBar</utilityBar>
+    <utilityBar>Slack_Channels_App_UtilityBar</utilityBar>
 </CustomApplication>
